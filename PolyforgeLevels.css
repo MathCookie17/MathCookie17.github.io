@@ -1,0 +1,140 @@
+html {
+    background-image: url("Polyforge Images/Double\ Polyforge\ Background.png");
+    background-size: 100vw auto;
+    font-size: 18px;
+    font-family: sans-serif;
+}
+
+.textbox {
+    background-color: white;
+    border: 5px solid #aaa;
+    margin: 30px;
+    padding: 10px;
+    color:rgb(166, 0, 61)
+}
+
+.textbox.table_of_contents {
+    background-color: rgb(255, 255, 205);
+    border: 5px solid #abab8a;
+}
+
+a:link, a:visited.non_visited:not(:hover,:active) {
+    color:rgb(0, 187, 121)
+}
+
+a:visited {
+    color:rgb(180, 0, 117)
+}
+
+a:hover, a:active {
+    color:rgb(0, 57, 138)
+}
+
+.title {
+    text-align: center;
+    font-size: 300%;
+    background-image: linear-gradient(rgb(46, 192, 255), rgb(255, 219, 99));
+    color: transparent;
+    -webkit-background-clip: text; background-clip: text;
+    margin-bottom: -5px;
+    margin-top: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 150%;
+    background-image: linear-gradient(rgb(222, 202, 21), rgb(255, 80, 64));
+    color: transparent;
+    -webkit-background-clip: text; background-clip: text;
+}
+
+table {
+    margin: 15px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+td {
+    text-align: center;
+    width: 75px;
+    min-width: 75px;
+    max-width: 75px;
+    height: 250px;
+}
+
+.copies > td {
+    color: blue;
+    font-size: 125%;
+    font-weight: bold;
+}
+
+.cycles > td {
+    color: rgb(0, 98, 46);
+    font-weight: bold;
+}
+
+.levrow > .template {
+    color: red;
+    font-size: 75%;
+    width: 250px;
+    min-width: 250px;
+    max-width: 250px;
+}
+
+.levrow > :not(.template) {
+    color: black;
+    font-size: 150%
+}
+
+.template_img {
+    height: 80px;
+    width: auto;
+    display: inline-block;
+}
+
+.textbox.terminology {
+    color:rgb(255, 94, 0)
+}
+
+.terminology_title {
+    text-align: center;
+    font-size: 200%;
+    color: rgb(8, 229, 0);
+    margin-top: 10px;
+    margin-bottom: -5px;
+}
+
+.terminology_subtitle {
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.terminology_box {
+    display: flex;
+    align-items: center;
+    background-color: #0f02;
+    padding: 10px;
+    border: 2px solid #0f0;
+    margin: 10px;
+}
+
+.terminology_box.whole_shape_terminology {
+
+    background-color: #f002;
+    border: 2px solid #f00;
+    margin: 10px;
+}
+
+.terminology_box > img {
+    margin: 2px;
+}
+
+.terminology_box > p {
+    text-align: center;
+    padding: 5px;
+}
