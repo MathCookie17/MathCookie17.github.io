@@ -1,0 +1,53 @@
+body {
+    text-align: center;
+    background-color: #0088ff;
+}
+h2 {
+    font-size:250%;
+}
+a.standard_link:link {
+    color: #00fff7;
+}
+a.standard_link:visited {
+    color: #ffd000;
+}
+.games_box, .similar_box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.similar_box {
+    background-color: #0003;
+    border-width: 5px;
+    border-style: solid;
+    -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.game_button {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px;
+    margin: 10px;
+    width: 400px;
+    height: 560px;
+    transition: 1s;
+}
+.game_button:hover {
+    box-shadow: 0px 0px 20px 3px #00d0ff;
+}
+.game_title {
+    font-size: 200%;
+    font-weight: bold;
+}
+.game_with_variant {
+    position: relative;
+}
+.game_with_variant > .game_variant {
+    position: absolute;
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px;
+    transition: 1s;
+}
+.game_variant:hover {
+    box-shadow: 0px 0px 20px 3px #00d0ff;
+}
