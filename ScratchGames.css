@@ -18,8 +18,8 @@ a.standard_link:visited {
 }
 .similar_box {
     background-color: #0003;
-    border-width: 5px;
-    border-style: solid;
+    outline-width: 5px;
+    outline-style: solid;
     -webkit-box-sizing: border-box; box-sizing: border-box;
 }
 .game_button {
@@ -28,7 +28,7 @@ a.standard_link:visited {
     padding: 10px;
     margin: 10px;
     width: 400px;
-    min-height: 580px;
+    min-height: 560px;
     transition: 1s;
 }
 .game_button:hover {
