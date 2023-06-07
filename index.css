@@ -28,7 +28,7 @@ html {
     margin: 30px auto;
     padding: 10px;
     transition: 0.75s;
-    height: 250px;
+    min-height: 250px;
     display: flex;
     align-items: center;
     text-decoration: none;
