@@ -61,3 +61,23 @@ a.standard_link:visited {
     height: 60px;
     width: 100%;
 }
+#homepage_return {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    font-size: 25px;
+    background-color: #00aeff;
+    color: #8df0ff;
+    border: solid #8df0ff 5px;
+    width: 400px;
+    height: 45px;
+    font-weight: bold;
+    text-decoration: none;
+}
+.hover_grow {
+    transition: scale 0.5s;
+}
+.hover_grow:hover {
+    scale: 1.05
+}
