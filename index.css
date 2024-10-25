@@ -48,3 +48,12 @@ html {
     font-weight: bold;
     font-size: 200%;
 }
+.bottom_box {
+    background-color: #8df0ff;
+    border: 5px solid #ffdd57;
+    width: 40%;
+    text-align: center;
+    margin: 10px auto;
+    padding: 10px;
+    color: #0066ff;
+}
