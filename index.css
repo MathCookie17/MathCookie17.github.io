@@ -20,6 +20,13 @@ html {
     margin-top: 10px;
     margin-bottom: 5px;
 }
+.category_title {
+    text-align: center;
+    text-decoration: underline;
+    display: block;
+    font-weight: bold;
+    font-size: 225%;
+}
 .page_box {
     border-width: 5px;
     border-style: solid;
