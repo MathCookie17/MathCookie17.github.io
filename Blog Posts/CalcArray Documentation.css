@@ -1,0 +1,57 @@
+html {
+    background-image: linear-gradient(#a55200, #598235, #a55200);
+    background-size: 100vw 200vh;
+    font-size: 125%;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+}
+.hover_grow {
+    transition: scale 0.5s;
+}
+.hover_grow:hover {
+    scale: 1.05
+}
+
+.textbox {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    border: 5px solid;
+    padding: 10px;
+    text-align: center;
+}
+.CalcArray, .otherCode {
+    background-color: black;
+    color: white;
+}
+
+a:link {
+    color: #63a1ff;
+}
+a:visited {
+    color: #823aff;
+}
+
+ul {
+    text-align: left;
+}
+.returnLater {
+    font-weight: bold;
+    font-style: italic;
+    text-shadow: 0px 0px 5px black;
+}
+
+#homepage_return {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    font-size: 25px;
+    background-color: #00ffb7;
+    color: #3aad32;
+    border: solid #3aad32 5px;
+    width: 500px;
+    height: 45px;
+    font-weight: bold;
+    text-decoration: none;
+}
