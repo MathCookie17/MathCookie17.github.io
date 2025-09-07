@@ -32,6 +32,7 @@ html {
 .page_image {
     height: 250px;
     width: auto;
+    max-width: 50%;
     float: left;
 }
 .page_title {

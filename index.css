@@ -46,7 +46,7 @@ html {
 }
 .page_image {
     height: 250px;
-    width: auto;
+    width: calc(min(auto, 50%));
     float: left;
 }
 .page_title {
