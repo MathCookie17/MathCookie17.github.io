@@ -46,7 +46,8 @@ html {
 }
 .page_image {
     height: 250px;
-    width: calc(min(auto, 50%));
+    max-width: 50%;
+    object-fit: contain; 
     float: left;
 }
 .page_title {

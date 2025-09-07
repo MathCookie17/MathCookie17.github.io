@@ -31,8 +31,8 @@ html {
 }
 .page_image {
     height: 250px;
-    width: auto;
     max-width: 50%;
+    object-fit: contain; 
     float: left;
 }
 .page_title {
