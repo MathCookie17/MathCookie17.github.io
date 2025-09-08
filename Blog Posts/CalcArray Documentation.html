@@ -1203,13 +1203,13 @@
                     numbers in the array, removing the even ones and resulting in [1, 5, 3].
                 </li>
                 <li>
-                    <span class="CalcArray">"arr_reduce"</span> (3 arguments): The first argument is an array, the second argument is a CalcArray expression, the third argument is some value.
-                    Combines all the elements of the first argument into some result value, using the second argument as the function to do so.
-                    The third argument is the starting value, and each time the second argument is evaluated, the third argument is automatically put at the start of the CalcArray
+                    <span class="CalcArray">"arr_reduce"</span> (3 arguments): The first argument is an array, the second argument is some value, and the third argument is a CalcArray expression.
+                    Combines all the elements of the first argument into some result value, using the third argument as the function to do so.
+                    The second argument is the starting value, and each time the third argument is evaluated, the second argument is automatically put at the start of the CalcArray
                     before the evaluation begins.
                     Inside the CalcArray expression, <span class="CalcArray">"@Var -1"</span> is the element currently being operated on,
                     and <span class="CalcArray">"@Var -2"</span> is the index of that element in the array.
-                    For example, <span class="CalcArray">[["@Literal", 1, 5, 4, 2, 3], "arr_reduce", ["+", "@Var -1"]], 0</span> starts at 0 and adds each element to the running total,
+                    For example, <span class="CalcArray">[["@Literal", 1, 5, 4, 2, 3], "arr_reduce", 0, ["+", "@Var -1"]]</span> starts at 0 and adds each element to the running total,
                     resulting in 15. Notice how the CalcArray expression begins with an operator, because the current running total is inserted at the start of the CalcArray
                     in each evaluation.
                 </li>
