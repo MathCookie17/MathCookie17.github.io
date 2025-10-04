@@ -1505,7 +1505,8 @@
                 90 is left-to-right, 180 is top-to-bottom, 270 is right-to-left, and values between multiples of 90 will be some form of diagonal)
                 For example, if you want a gradient that goes from left-to-right, starts at red, goes to yellow 20% of the way through and stays yellow until 45% of the way through,
                 then ends at blue, you'd do <span class="CalcArray">["@linear-gradient", 90, ["@HSLA", 0, 100, 50, 0], 0, ["@HSLA", 60, 100, 50, 0], 20, 45, ["@HSLA", 240, 100, 50, 0], 100]</span>,
-                or some variation of such.
+                or some variation of such. (Note that any CalcArray within a gradient will be assumed to be a color, even if it would return a number. To mark a CalcArray within a gradient
+                as "this will return a number for a gradient position, not a color", put <span class="CalcArray">"@CalcArrayNumber"</span> at the start of that gradient entry.)
             </p>
             <p>
                 The other gradient types are <span class="CalcArray">"@radial-gradient"</span> (gradient positions are still from 0 to 100, with 0 being the center and 100 being the edge),
@@ -1568,7 +1569,7 @@
                 as whichever of those two is higher. (If one of them is set to 0, it reverts to its default, which is 2 for the 5th entry and -0.7 for the 6th)
             </p>
             <p>
-                Finally, any entries beyond the 6th are addons. There are currently two possible types of addons:
+                Finally, any entries beyond the 6th are addons. There are currently three possible types of addons:
             </p>
             <ul>
                 <li>
@@ -1586,6 +1587,12 @@
                     The 1st entry of a PrimeImage is the background color/gradient to be used, and the 2nd entry is the "mask image", which works
                     like the CSS mask-image property (see <a href="https://www.w3schools.com/css//css3_masking.asp">this article</a> for a tutorial on that).
                 </li>
+                <li>
+                    If you want to create a list of these that has a variable amount of entries, such as if you need the amount of PrimeImages to depend
+                    on the tile, use an "ExtraEntriesList" array. After the "ExtraEntriesList" at the beginning, the rest of the array is evaluated as
+                    a CalcArray. This CalcArray should return an array of addon arrays (i.e. an array of Innerscript and/or PrimeImage arrays),
+                    and then once that has been evaluated, each of those Innerscripts and PrimeImages are themselves evaluated and added to the tile.
+                </li>
             </ul>
         </div>
         <div class="textbox" style="background-color: #3d677a; color: #9fc7e9; border-color: #2f97dd;">
@@ -1596,7 +1603,6 @@
                 These are the "special color schemes". To use a special color scheme for a tile instead of its normal display, have "@ColorScheme"
                 be the display rule's 2nd entry, then put the name of the special color scheme for the 3rd entry, and the 4th entry should be an array
                 whose 0th entry is the value (usually a BigInt) to input into the special color scheme, and further entries are "parameters" for that special color scheme.
-                Special color schemes can also be used in PrimeImages.
                 Here's an example of what this looks like:
             </p>
             <img src="CalcArray Documentation Images/How @ColorScheme is used.png" width="50%">
@@ -1680,6 +1686,10 @@
                     I'll leave it to you to figure out how this one works.
                 </li>
             </ul>
+            <p>
+                Special color schemes can also be used in PrimeImages. To do so, instead of having the 1st entry of the prime image be the gradient,
+                have it be an array of the form ["@ColorScheme", whatever the special color scheme is, the value to put into the color scheme, ...color scheme parameters].
+            </p>
         </div>
         <div class="textbox" style="background-color: #796700; color: #ffef5e; border-color: #d4c820;">
             <h3>Merge Rules</h3>
