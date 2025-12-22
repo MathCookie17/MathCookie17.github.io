@@ -369,24 +369,25 @@
             and the green from 17's residue of 9, and the inner stripes alternate between these two types. Since 17 is bigger than 11,
             the 17 inner stripes are longer than the 11 inner stripes. To see why I included the length difference, here's a larger example:
         </p>
-        <img src="DIVE Color Scheme Images/2161 Compendium Stripes.png" width="125px">
-        <img src="DIVE Color Scheme Images/2161 Squared Compendium Stripes.png" width="125px">
-        <p class="image-caption">Square included for clarity, since the stripes are hard to see on the original.</p>
+        <img src="DIVE Color Scheme Images/1801 Compendium Stripes.png" width="125px">
         <p>
-            2161's residue is 1081, which is 23×47. 23 and 47's residues, 12 and 24, are similar colors, so
-            the length difference helps in telling them apart. This isn't strictly necessary here, but if the primes
-            in the product were, say, 31 and 127, then they'd be the exact same color, so the length difference would
-            be required, otherwise you wouldn't be able to tell it was a "two inner stripe types" pattern.
+            1801's residue is 901, which is 17×53. 17 and 53's residues, 9 and 27, are both pure green, so
+            the length difference is needed to tell them apart: the shorter stripes are for 17, the longer stripes are for 53.
+            If it wasn't for this length difference, you wouldn't be able to tell it was a "two inner stripe types" pattern.
         </p>
         <p>
             The other case where the original DIVE's stripe algorithm would fail is when there are more than three layers.
             The Compendium's version, on the other hand, does have support for stripes with more than three layers
             (this is why I had to make the third layer be the innermost when there are three layers,
             because the way the original DIVE does it doesn't generalize well to arbitrarily many layers).
-            The earliest example of this I could find is 1021, and it's not the best example (so if someone finds a better one, let me know!):
+            Here's an example:
         </p>
-        <img src="DIVE Color Scheme Images/1021 Compendium Stripes.png" width="125px">
-        <p class="image-caption">Stripe layers here are 7, 1, 1, 10, so gradient on the outside, two layers of black, purple on the inside.</p>
+        <img src="DIVE Color Scheme Images/1093 Compendium Stripes.png" width="125px">
+        <p>
+            Hard to see? Let's square that and zoom in on a section of the stripes:
+        </p>
+        <img src="DIVE Color Scheme Images/1093 Squared Compendium Stripes Segment.png" width="125px">
+        <p class="image-caption">Stripe layers here are 1, 2, 3, 12.</p>
         <p>
             So, with both of the remaining issues taken care of, does that mean that the Power Compendium's version of the DIVE
             color scheme can keep generating patterns forever? Well... in theory it can, but there are two issues.
@@ -429,7 +430,7 @@
             layers can't spiral too far out of control: since any number that needs an inner tile must be odd, and 1 is subtracted to make the inner tile,
             the inner tile must always be even, so at each layer at least a 2 will be divided out. As such, the amount of layers cannot grow
             any faster than the base-2 logarithm of the tile, and usually there are significantly less layers than that.
-            (If you're wondering why 1021 and 2161 got patterns earlier, let me clarify: they use inner tiles in the actual game, the patterns I showed earlier
+            (If you're wondering why 1093 and 1801 got patterns earlier, let me clarify: they use inner tiles in the actual game, the patterns I showed earlier
             are what they <i>would</i> look like if the patterns did go that far.)
         </p>
         <p>
