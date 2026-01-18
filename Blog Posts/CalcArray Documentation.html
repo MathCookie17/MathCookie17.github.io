@@ -325,7 +325,7 @@
                 </li>
                 <li>
                     <span class="CalcArray">"max"</span> (2 arguments): Maximum. Returns whichever of the two arguments is
-                    greater than the other one. If they are equal or comparisons don't make sense for these two values, returns the first argument by default.
+                    greater than the other one. If they are equal or inequalities don't make sense for these two values, returns the first argument by default.
                 </li>
             </ul>
         </div>
@@ -352,7 +352,7 @@
                     which means that if the result of the operator is already known after the first argument
                     (i.e. if the first argument is false for <span class="CalcArray">"&&"</span> or if it's true for <span class="CalcArray">"||"</span>),
                     the second argument is not evaluated at all. This is useful if, say, the first argument is making sure some number isn't zero and
-                    then the second argument needs to divide by it/ If the second argument is a CalcArray with side effects you want to happen,
+                    then the second argument needs to divide by it. If the second argument is a CalcArray with side effects you want to happen,
                     such as changing a variable, then use these "nsc" ("no short-circuit") versions, which will evaluate the second argument
                     even if doing so cannot change the result.
             </ul>
@@ -664,7 +664,7 @@
                 <li>
                     <span class="CalcArray">"perfectPowerFormB"</span> (2 arguments): Both arguments are BigInts. Results in a three-entry array of BigInts representing
                     (the absolute value of) the first argument as a perfect power with the largest possible exponent, provided that exponent is no larger than the second argument.
-                    In the array, the first entry is the base, the second entry is the exponent, and the third exponent is the sign.
+                    In the array, the first entry is the base, the second entry is the exponent, and the third entry is the sign.
                     For example, <span class="CalcArray">[81n, "perfectPowerFormB", 10n]</span> results in [3n, 4n, 1n] since 81 is 3^4, but
                     <span class="CalcArray">[81n, "perfectPowerFormB", 3n]</span> results in [9n, 2n, 1n] since the second argument is too small to allow an exponent of 4.
                     If the first argument is 1n, 0n, or -1n, the resulting array is [abs(first argument), 0n, sign]; the 0n exponent is used to indicate that it's a special case
@@ -787,7 +787,8 @@
                 at this time. Those operations don't return rational numbers - numbers and BigInts can have versions of them because they have limited "granularity"
                 (i.e. there is a nonzero step size between each possible value), but BigRationals can get as precise as needed, so a root, log, or trig function
                 would never reach a sufficiently exact answer. Such an operator would require an extra argument specifying a level of precision to stop the algorithm
-                at. I'll probably extend the BigRational class to include these operators someday, but for now they are not included.
+                at. I'll probably extend the BigRational class to include these operators someday, but for now they are not included (and even if they are added someday,
+                it'll probably be in a different project that uses BigRational, not in the Power Compendium).
             </p>
             <p>
                 BigRationals are used in a few places in the Power Compendium's code - places where both non-integer values and exact precision are needed.
@@ -883,9 +884,8 @@
                 </li>
             </ul>
             <p>
-                You may be wondering where in the Power Compendium this class is used. It's not used in 16+16i, those tiles are represented in a manner similar to other
-                "powers of n" modes. So where is it used, then? Whereas BigRationals are used in several places, GaussianBigInts are only used in one place...
-                and I'll leave it to you to figure out where.
+                GaussianBigInt isn't as versatile as BigRational, so as of now it's only used in one place in the 2048 Power Compendium:
+                in the waves mode Gaussian DIVE.
             </p>
         </div>
         <div class="textbox" style="background-color: #635c31; color: #e6c297; border-color: #b17e1f;">
@@ -898,7 +898,7 @@
                 <span class="CalcArray">"Number"</span> on a GaussianBigInt will return 0 unless the GaussianBigInt is pure real, while
                 <span class="CalcArray">"Number"</span> on a BigRational works properly (i.e. converting the BigRational 3/2 to a number gives the number 1.5).
                 Unlike in JavaScript, arrays converted to strings in CalcArrays will include the brackets on the edges of the array.
-                A GaussianBigInt converted into a string will be written as "a+bi" or "a-bi" where a and b are the component numbers,
+                A GaussianBigInt converted into a string will be written as "a+bi" or "a-bi" where a and b are the component numbers.
                 A BigRational converted into a string will be written as a (potentially improper) fraction, unless the denominator is 1 (in which case it's written
                 as a whole number) or 0 (in which case it's written as "Infinity", "-Infinity", or "NaN").
                 <span class="CalcArray">"Boolean"</span> on a GaussianBigInt or BigRational will always result in true, since they're technically objects.
@@ -974,7 +974,8 @@
                 though you shouldn't run into lag with it in a normal DIVE game), mode 2 checks the seeds smallest to largest, mode 3 checks them in the order they already are
                 in the list, and mode 4 uses the recursive algorithm but to ensure the <i>maximum</i> possible outcome (while still obeying the "can't be divided by any of the seeds anymore" rule)
                 instead of the minimum.
-                There's also <span class="CalcArray">"GaussianDIVESeedUnlock"</span>, which is like <span class="CalcArray">"DIVESeedUnlock"</span> but using GaussianBigInts
+                Many of the waves modes use <span class="CalcArray">"DIVESeedUnlock"</span>, but Gaussian DIVE needed its own variant: <span class="CalcArray">"GaussianDIVESeedUnlock"</span>,
+                which is like <span class="CalcArray">"DIVESeedUnlock"</span> but using GaussianBigInts
                 instead of BigInts; <span class="CalcArray">"GaussianDIVESeedUnlock"</span> takes four arguments, with the fourth being a boolean that determines whether the
                 result should be rotated into the first quadrant (if true) or left as is (if false).
                 There's a third one of these, <span class="CalcArray">"CustomDIVESeedUnlock"</span>, which I will discuss later once we've learned about variables.
@@ -1039,7 +1040,7 @@
             <p>
                 Strings with an @ at the beginning of them tend to do special things in a CalcArray.
                 These can be special operator-like tools, like conditionals and loops, but they can also be stand-ins
-                for values that will be evaluated when it comes time to evaluate them. "@Parent" strings are one example of this.
+                for values that will be evaluated when it comes time to evaluate them. <span class="CalcArray">"@Parent"</span> strings are one example of this.
             </p>
             <p>
                 An <span class="CalcArray">"@Parent"</span> string is a way to reference the running value of the current CalcArray or of one of the parent CalcArrays it's inside.
@@ -1257,7 +1258,9 @@
                 </li>
             </ul>
             <p>
-                <span class="CalcArray">"CustomDIVESeedUnlock"</span> is currently unused, though I expect I'll find use for it at some point in the future.
+                <span class="CalcArray">"CustomDIVESeedUnlock"</span> is used in a couple waves modes with wacky seed unlock behaviors,
+                such as Dual-Tile DIVE (which needs <span class="CalcArray">"CustomDIVESeedUnlock"</span> so it can do its multiplications, divisions, etc.
+                in Z<sup>2</sup>).
             </p>
         </div>
     </div>
@@ -1357,7 +1360,7 @@
                     In Isotopic 256, the first entry is the power of 2 like it is in 2048, but there's also a second
                     entry that stores that tile's remaining time left: for example, a <sup>32</sup>P tile with 15 turns left would be [5, 15].
                     Stable tiles have that second entry set to 10<sup>300</sup>, since that's effectively infinite and
-                    Isotopic 256 was added to the Compendium before save codes were update to be able to handle the actual floating point number Infinity.
+                    Isotopic 256 was added to the Compendium before save codes were updated to be able to handle the actual floating point number Infinity.
                 </li>
                 <li>
                     In Ratio-Fill 1296, tiles have three entries, except the second one is itself an array.
@@ -1673,17 +1676,23 @@
                     "TRIGAT"
                 </li>
                 <li>
+                    "Anti-DIVE" (An inverted colors version of the DIVE color scheme.
+                    1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.
+                    This color scheme is not currently used in any mode, but was added for a mode idea in v2.3 that didn't end up
+                    making it into the game, but its color scheme remains.)
+                </li>
+                <li>
+                    "Gaussian DIVE" (0th parameter should be a GaussianBigInt instead of a BigInt.
+                    1st parameter is the amount of Gaussian primes tracked before switching to inner tiles, 1232 by default)
+                </li>
+                <li>
                     "Partial Absorb 180" (0th parameter should be a BigRational instead of a BigInt.
                     1st parameter is the amount of primes tracked before switching to inner tiles, 27 by default)
                 </li>
                 <li>
-                    "Rational DIVE" (0th parameter should be a BigRational instead of a BigInt.
+                    "RACUTE", "Rational DIVE" (0th parameter should be a BigRational instead of a BigInt.
                     1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.
-                    This color scheme is not currently used in any mode, but it's something I wanted to make, so it exists now)
-                </li>
-                <li>
-                    There's one more special color scheme, whose title is the name of the secret mode with spoiler code [GDUCI].
-                    I'll leave it to you to figure out how this one works.
+                    These two are synonyms)
                 </li>
             </ul>
             <p>
@@ -1794,7 +1803,7 @@
                 The variable startTileSpawns is used to define the possible spawning tiles. Each element of this array is itself a two-element array representing one possible spawning tile,
                 where its first element is the tile itself and its second element is the chance of it spawning.
                 These chances do not have to be out of 100%; it simply means that a tile with a larger chance is more likely to spawn than one with a smaller chance.
-                Normally the spawning tiles and chances are written as plain arrays and numbers respectively, though you <i>can</i> put CalcArrays into them if you wish.
+                Normally the spawning tiles and chances are written as plain arrays and numbers respectively, though you <i>can</i> put CalcArrays into a tile's entries or a spawning chance if you wish.
                 If you want an <i>entire</i> spawned tile to be evaluated as a CalcArray expression (which you'll need to do if you don't want the result to be an array,
                 such as if you want to spawn a temporary hole), put <span class="CalcArray">"@STCalcArray"</span> at the start of that spawning tile.
             </p>
@@ -1805,12 +1814,18 @@
                 then the next entry is how many of that tile are in the box, and repeat.
             </p>
             <p>
-                There's also the forcedSpawns array. Each entry of forcedSpawns is an array consisting of a CalcArray expression, a string, a boolean or an array of one or two booleans, and one or more tile arrays.
+                There's also the start_forcedSpawns array. Each entry of start_forcedSpawns is an array consisting of a CalcArray expression, a string, a boolean or an array of one or two booleans, and one or more tile arrays.
                 If the CalcArray expression is true this turn, then all of the tiles in this entry will be spawned this turn, either before or after the random spawns depending on the string,
                 which can be "BeforeSpawns" or "AfterSpawns". This is used by the Temporary Holes modifiers.
                 If the boolean, or the 0th entry of the boolean array, is true, then if that tile fails to spawn because the board is full, you immediately lose.
                 If it's a boolean array and it has a 1st entry that's true, then that forced spawn will only occur once, i.e. once it spawns (or fails to spawn because the board is full)
-                it's removed from the forcedSpawns array.
+                it's removed from the forced spawns array.
+            </p>
+            <p>
+                startTileSpawns and start_forcedSpawns are what the tile spawns and forced spawns are at the <i>start</i> of a mode.
+                There are CalcArray operators (more on those later) that can edit the tile spawns and forced spawns, so there are also variables
+                TileSpawns and forcedSpawns that store the <i>current</i> spawns instead of the starting ones
+                (but if your goal is to make an injected mode, you should only be working with the starting versions, not the current ones).
             </p>
         </div>
         <div class="textbox" style="background-color: #6e007f; color: #e6a8ff; border-color: #d771ff;">
@@ -2152,7 +2167,7 @@
                     <span class="otherCode">movementParameters</span> (array of three CalcArray expressions): This is
                     <span class="CalcArray">["@VDir", "@HDir", "@SlideAmount"]</span> by default. When a tile is moving, it's actually <i>these</i>, not the
                     directions and maximum slide amount themselves, it looks at to determine how it moves, which means if you change these expressions,
-                    you can make it so different tiles move in different ways when you move in the same direction. No mode uses this yet.
+                    you can make it so different tiles move in different ways when you move in the same direction.
                 </li>
                 <li>
                     <span class="otherCode">tileValueFunction</span> (CalcArray expression): An expression that should return the "value" of a tile. You don't need to bother with this
@@ -2260,7 +2275,7 @@
                 </li>
                 <li>
                     The innerHTML of the rules_text HTML element (note: before the base-64, this is encoded via the JavaScript library <i>he</i>, to avoid letting special characters that would mess with
-                    the HMTL into the save code)
+                    the HTML into the save code)
                 </li>
                 <li>
                     Whether tiles can merge multiple times in the same turn
