@@ -24,6 +24,9 @@ html {
     background-color: black;
     color: white;
 }
+.spacedList > li {
+    margin-bottom: 6px;
+}
 
 a:link {
     color: #63a1ff;

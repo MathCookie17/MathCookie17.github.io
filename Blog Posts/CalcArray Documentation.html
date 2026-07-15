@@ -7,18 +7,23 @@
     <title>CalcArray Documentation</title>
 </head>
 <body>
-    <div class="textbox" style="background-color: #e6ff9a; color: #354600; border-color: #9dc32b;">
+    <div id="TitleBox" class="textbox" style="background-color: #e6ff9a; color: #354600; border-color: #9dc32b;">
         <h1>CalcArray Documentation</h1>
         <p><i>How the code of the 2048 Power Compendium works</i></p>
+        <p>
+            Note: If you've already read this before v3.0 and you're coming here from the Infused Mode Guide,
+            Part 5 has the bulk of the information on Infused Modes.
+            But if you haven't already read this documentation before, you should start at the beginning.
+        </p>
     </div>
-    <div class="textbox" style="background-color: #003d46; color: #9addff; border-color: #2ba7c3;">
+    <div id="Part1" class="textbox" style="background-color: #003d46; color: #9addff; border-color: #2ba7c3;">
         <h2>Part 1: Introduction to CalcArrays</h2>
-        <div class="textbox" style="background-color: #001c46; color: #9ab8ff; border-color: #2b6fc3;">
+        <div id="Part1_prelude" class="textbox" style="background-color: #001c46; color: #9ab8ff; border-color: #2b6fc3;">
             <h3>Prelude</h3>
             <p>
                 <a href="https://mathcookie17.github.io/The-2048-Power-Compendium/">The 2048 Power Compendium</a> is a collection
-                of 100 different gameplay variants of 2048, most of which were made by me (but some came from elsewhere or were
-                suggested by players, though as of them they were all still coded, or at least re-implemented, by me).
+                of over 100 different gameplay variants of 2048, most of which were made by me (but some came from elsewhere or were
+                suggested by players, though almost all of them were still coded, or at least re-implemented, by me).
                 Several of the people on <a href="https://discord.gg/J9jHceBFNT">my Discord server</a> have taken an interest
                 in working with the code of the game
                 (which is open-source and can be found <a href="https://github.com/MathCookie17/The-2048-Power-Compendium">on GitHub</a>),
@@ -52,7 +57,7 @@
                 If you do not know yet whether you have found all of the secrets, then you have not.)
             </p>
         </div>
-        <div class="textbox" style="background-color: #6f542a; color: #fcdc7c; border-color: #dfc326;">
+        <div id="Part1_whatIsCalcArray" class="textbox" style="background-color: #6f542a; color: #fcdc7c; border-color: #dfc326;">
             <h3>What is a CalcArray?</h3>
             <p>
                 The code that the 2048 Power Compendium runs to do things like merges is not written directly
@@ -70,12 +75,12 @@
                 CalcArrays have no concept of an order of operations, they simply evaluate from left to right.
                 For example, when evaluating <span class="CalcArray">[3, "+", 2, "*", 4]</span>, the addition is done first
                 since it comes first in the array, so that array simplifies to <span class="CalcArray">[5, "*", 4]</span>,
-                which returns 20.
+                which evaluates to 20.
             </p>
             <p>
                 There is, however, an equivalent to parentheses: nested arrays. An array inside a CalcArray will itself
                 be evaluated as a CalcArray, so <span class="CalcArray">[3, "+", [2, "*", 4]]</span> becomes
-                <span class="CalcArray">[3, "+", 8]</span>, which returns 11.
+                <span class="CalcArray">[3, "+", 8]</span>, which evaluates to 11.
             </p>
             <p>
                 Generally, when using an operator, the order of the arguments is
@@ -96,7 +101,7 @@
                 loops, conditionals, variables, and so on. We'll be going over all of those throughout this blog post.
             </p>
         </div>
-        <div class="textbox" style="background-color: #847d4b; color: #fced7c; border-color: #bcd03c;">
+        <div id="Part1_whereAndWhy" class="textbox" style="background-color: #847d4b; color: #fced7c; border-color: #bcd03c;">
             <h3>Where and Why are CalcArrays used?</h3>
             <p>
                 CalcArrays are used in a few places when creating a mode in the Power Compendium:
@@ -156,6 +161,13 @@
                     the things in the Compendium they're allowed to affect (they could, of course, be used to crash the Compendium with a simple
                     infinite loop, but they shouldn't be able to do more harm than that).
                 </li>
+                <li>
+                    And as of v3.0, CalcArrays can be used in creating modded modes more directly as "Infused Modes", a more refined
+                    version of the injected mode approach. Import "Infuse" (without the quotes) into any save code slot in the Power Compendium
+                    to access the tools for creating these modes and for infusing them into the game. There's more information about infused modes
+                    in the Guide in those modding tools, and in the last part of this documentation (but there's a lot we need to cover first
+                    to understand how to use them!)
+                </li>
             </ul>
             <p>
                 We'll get to how to use CalcArrays in these places later on, but first we need to discuss how to use them on their own,
@@ -164,9 +176,9 @@
             </p>
         </div>
     </div>
-    <div class="textbox" style="background-color: #00460c; color: #9affa6; border-color: #30c32b;">
+    <div id="Part2" class="textbox" style="background-color: #00460c; color: #9affa6; border-color: #30c32b;">
         <h2>Part 2: CalcArray Operators</h2>
-        <div class="textbox" style="background-color: #2a6f3f; color: #caff57; border-color: #39e130;">
+        <div id="Part2_number" class="textbox" style="background-color: #2a6f3f; color: #caff57; border-color: #39e130;">
             <h3>Number Operators</h3>
             <p>
                 Let's start with the operators for numbers, since those were what CalcArrays were originally designed to work with.
@@ -246,7 +258,7 @@
                 <li>
                     <span class="CalcArray">"prime"</span> (1 argument): Result is the <i>n</i>th prime, where n is the argument:
                     the 1st prime is 2, the 2nd prime is 3, the 3rd prime is 5, the 4th prime is 7, and so on.
-                    <span class="CalcArray">[0, "prime"]</span> results in 1. If the argument is negative, returns the negative of
+                    <span class="CalcArray">[0, "prime"]</span> results in 1. If the argument is negative, results in the negative of
                     what the positive version of that argument would give: <span class="CalcArray">[-4, "prime"]</span> results in -7, for example.
                     Does not work on non-integers.
                 </li>
@@ -263,10 +275,10 @@
                     All of these take 2 arguments, except <span class="CalcArray">"bit~"</span> which takes 1 argument.
                 </li>
                 <li>
-                    <span class="CalcArray">"rand_int"</span> (2 arguments): Returns a random integer between the two arguments (inclusive).
+                    <span class="CalcArray">"rand_int"</span> (2 arguments): Results in a random integer between the two arguments (inclusive).
                 </li>
                 <li>
-                    <span class="CalcArray">"rand_float"</span> (2 arguments): Returns a random floating point number between the two arguments.
+                    <span class="CalcArray">"rand_float"</span> (2 arguments): Results in a random floating point number between the two arguments.
                 </li>
                 <li>
                     <span class="CalcArray">"defaultAbbrev"</span> (2 arguments): Rewrites the number in the way that numbers are
@@ -276,12 +288,11 @@
                     Numbers are rounded to three decimal places at most.
                     If a number is 10<sup>12</sup> or larger, or it's smaller than 0.1 (and is not 0), then it is instead written
                     in scientific notation, with four decimal places of precision.
-                    The scientific notation assumes that the number is being outputted to HTML, so the string you'd get would look something
-                    like "1.43564 &amp;#215; 10&lt;sup&gt;24&lt;/sup&gt;", since in HTML that displays as "1.43564 &#215; 10<sup>24</sup>".
+                    The scientific notation is written as a "text expression" (more about those in part 4), not a string!
                 </li>
             </ul>
         </div>
-        <div class="textbox" style="background-color: #635963; color: #e0d5b6; border-color: #7c8688;">
+        <div id="Part2_comparison" class="textbox" style="background-color: #635963; color: #e0d5b6; border-color: #7c8688;">
             <h3>Comparison Operators</h3>
             <p>
                 These operators don't have a set type: they will take arguments of any type, so they won't do type conversion before evaluation.
@@ -298,14 +309,14 @@
                 </li>
                 <li>
                     <span class="CalcArray">"!="</span> (2 arguments): Not equals. Results in the opposite
-                    of what <span class="CalcArray">"="</span> would return on these two arguments.
+                    of what <span class="CalcArray">"="</span> would result in on these two arguments.
                 </li>
                 <li>
                     <span class="CalcArray">"&lt;"</span> (2 arguments): Less than. Results in true if the
                     first argument's value is less than the second argument's value, results in false otherwise.
                     Unlike <span class="CalcArray">"="</span>, inequalities do work across types, so
-                    <span class="CalcArray">[5n, "&lt;", 6]</span> will return true. (However, also unlike
-                    <span class="CalcArray">"="</span>, inequalities always return false on arrays)
+                    <span class="CalcArray">[5n, "&lt;", 6]</span> will result in true. (However, also unlike
+                    <span class="CalcArray">"="</span>, inequalities always result in false on arrays)
                 </li>
                 <li>
                     <span class="CalcArray">"&gt;"</span> (2 arguments): Greater than. Results in true if the
@@ -320,16 +331,16 @@
                     first argument's value is greater than or equal to the second argument's value, results in false otherwise.
                 </li>
                 <li>
-                    <span class="CalcArray">"min"</span> (2 arguments): Minimum. Returns whichever of the two arguments is
-                    less than the other one. If they are equal or inequalities don't make sense for these two values, returns the first argument by default.
+                    <span class="CalcArray">"min"</span> (2 arguments): Minimum. Results in whichever of the two arguments is
+                    less than the other one. If they are equal or inequalities don't make sense for these two values, results in the first argument by default.
                 </li>
                 <li>
-                    <span class="CalcArray">"max"</span> (2 arguments): Maximum. Returns whichever of the two arguments is
-                    greater than the other one. If they are equal or inequalities don't make sense for these two values, returns the first argument by default.
+                    <span class="CalcArray">"max"</span> (2 arguments): Maximum. Results in whichever of the two arguments is
+                    greater than the other one. If they are equal or inequalities don't make sense for these two values, results in the first argument by default.
                 </li>
             </ul>
         </div>
-        <div class="textbox" style="background-color: #37196d; color: #a080ff; border-color: #3d1bc5;">
+        <div id="Part2_boolean" class="textbox" style="background-color: #37196d; color: #a080ff; border-color: #3d1bc5;">
             <h3>Boolean Operators</h3>
             <p>
                 These operators take boolean arguments and result in a boolean.
@@ -337,11 +348,11 @@
             <ul>
                 <li>
                     <span class="CalcArray">"&&"</span> (2 arguments): AND. Results in true if both arguments are true
-                    (or some value that type-converts to true), returns false otherwise.
+                    (or some value that type-converts to true), results in false otherwise.
                 </li>
                 <li>
                     <span class="CalcArray">"||"</span> (2 arguments): OR. Results in true if at least one of the arguments is true
-                    (or some value that type-converts to true), returns false otherwise.
+                    (or some value that type-converts to true), results in false otherwise.
                 </li>
                 <li>
                     <span class="CalcArray">"!"</span> (1 argument): NOT. Results in the boolean negation of the argument.
@@ -357,7 +368,7 @@
                     even if doing so cannot change the result.
             </ul>
         </div>
-        <div class="textbox" style="background-color: #6d4219; color: #ffc480; border-color: #c57e1b;">
+        <div id="Part2_string" class="textbox" style="background-color: #6d4219; color: #ffc480; border-color: #c57e1b;">
             <h3>String Operators</h3>
             <p>
                 The first argument to these operators is a string, but the later argument(s) might not be;
@@ -422,7 +433,7 @@
                 <li>
                     <span class="CalcArray">"str_includes"</span> (2 arguments): Basically a boolean-resulting
                     version of <span class="CalcArray">"str_indexOf"</span>: results in true if the second argument is contained as
-                    a substring in the first argument, returns false if it is not.
+                    a substring in the first argument, results in false if it is not.
                 </li>
                 <li>
                     <span class="CalcArray">"str_splice"</span> (4 arguments): Results in a string that's like the first argument,
@@ -446,14 +457,14 @@
                 </li>
             </ul>
         </div>
-        <div class="textbox" style="background-color: #6e543d; color: #ecc6b6; border-color: #af6443;">
+        <div id="Part2_array" class="textbox" style="background-color: #6e543d; color: #ecc6b6; border-color: #af6443;">
             <h3>Literal Arrays and Array Operators</h3>
             <p>
                 Normally, when there's an array inside a CalcArray, that inside array is also interpreted as a CalcArray.
                 If you want to create an actual array as a value to manipulate within a CalcArray, then you have to put 
                 <span class="CalcArray">"@Literal"</span> at the beginning of that array.
                 For example, putting <span class="CalcArray">[1, 5, 9]</span> into a CalcArray will cause it to attempt
-                to evaluate that as a CalcArray (and <span class="otherCode">5</span> isn't a valid operator, so it will just return 1),
+                to evaluate that as a CalcArray (and <span class="otherCode">5</span> isn't a valid operator, so that CalcArray will just result in 1),
                 but if you put <span class="CalcArray">["@Literal", 1, 5, 9]</span> into a CalcArray, that will become the array
                 [1, 5, 9] as an array value that can be used within the CalcArray.
             </p>
@@ -468,7 +479,7 @@
                 CalcArrays treat arrays as values, not as objects. This means that, like strings, every CalcArray operation on an array creates
                 a new array rather than mutating the old one, even operators like "arr_push" whose JavaScript equivalents mutate the existing array.
                 This also means that checking arrays for equality doesn't check if they're "the same object", it checks if all their elements are equal.
-                Inequalities still always return false on arrays.
+                Inequalities still always result in false on arrays.
             </p>
             <p>
                 Here are the operators whose first argument is an array.
@@ -505,7 +516,7 @@
                 <li>
                     <span class="CalcArray">"arr_includes"</span> (2 arguments): Basically a boolean-resulting
                     version of <span class="CalcArray">"arr_indexOf"</span>: results in true if the second argument is contained as
-                    an element in the first argument, returns false if it is not.
+                    an element in the first argument, results in false if it is not.
                 </li>
                 <li>
                     <span class="CalcArray">"arr_copy"</span> (1 argument): Creates a copy of the argument.
@@ -580,7 +591,6 @@
                     <span class="CalcArray">"arr_binaryInsert"</span> (2 arguments): First argument is an array that must be sorted from least
                     to greatest (meaning the elements have to be of a type that inequalities work on), second argument is an element.
                     Inserts that element into its proper place in the sorted array.
-                    (Note: I do intend to add versions of binary search and binary insert that allow a custom comparison function someday)
                 </li>
                 <li>
                     <span class="CalcArray">"arr_eqRearrange"</span> (2 arguments): For <span class="CalcArray">"=="</span>
@@ -605,17 +615,18 @@
             <p>
                 There's a few more advanced array operators that I can't explain yet, because they rely on variables, which I haven't discussed yet, to do their
                 work: <span class="CalcArray">"arr_sort"</span>, <span class="CalcArray">"arr_map"</span>, <span class="CalcArray">"arr_filter"</span>,
-                <span class="CalcArray">"arr_reduce"</span>, and <span class="CalcArray">"arr_reduceRight"</span>. These will be discussed later.
+                <span class="CalcArray">"arr_reduce"</span>, <span class="CalcArray">"arr_reduceRight"</span>,
+                <span class="CalcArray">"arr_binarySearchCF"</span>, and <span class="CalcArray">"arr_binaryInsertCF"</span>. These will be discussed later.
             </p>
         </div>
-        <div class="textbox" style="background-color: #6d1919; color: #ff8680; border-color: #c51b1b;">
+        <div id="Part2_bigint" class="textbox" style="background-color: #6d1919; color: #ff8680; border-color: #c51b1b;">
             <h3>BigInt Operators</h3>
             <p>
                 Putting a BigInt into a CalcArray works differently depending on where you're doing it. If you're
                 using CalcArrays in the Compendium directly (such as messing with the console or actually editing the code to make a mode),
                 then they work just as you'd expect: the BigInt of value 5 is <span class="CalcArray">5n</span>. However,
                 BigInts don't work nicely with JSON's stringify and parse
-                methods, which are used for save codes, so if you're editing a save code, they're entered differently:
+                methods, which are used for save codes and Infused Modes, so if you're editing a save code or making an Infused Mode, they're entered differently:
                 the BigInt of value 5 is <span class="otherCode">"@BigInt 5"</span>. These methods of entering BigInts are mutually exclusive:
                 <span class="CalcArray">5n</span> won't work in a save code, and <span class="otherCode">"@BigInt 5"</span> won't work in the Compendium directly.
             </p>
@@ -634,7 +645,7 @@
             </p>
             <p>
                 <span class="CalcArray">"/B"</span> and <span class="CalcArray">"logB"</span> also exist.
-                Since the number versions of these operators can return decimals, their results are truncated here (remember, "truncated" means "rounded towards 0"):
+                Since the number versions of these operators can result in decimals, their results are truncated here (remember, "truncated" means "rounded towards 0"):
                 for example, <span class="CalcArray">[14n, "/B", 3n]</span> results in 4n, since 14 / 3 is between 4 and 5. Truncated division is how
                 division normally works with BigInts, so it shouldn't be a surprise that that's how it's done for division and logarithms here.
                 Be careful here: CalcArrays do not have any error handling built in, so if you do something that cause BigInts to throw an error,
@@ -685,7 +696,7 @@
                 </li>
                 <li>
                     <span class="CalcArray">"primeDefactorizeB"</span> (2 arguments): The inverse of <span class="CalcArray">"primeFactorizeB"</span>.
-                    First argument is an array in a form that <span class="CalcArray">"primeFactorizeB"</span> can return, second argument is
+                    First argument is an array in a form that <span class="CalcArray">"primeFactorizeB"</span> can result in, second argument is
                     what format that array is in (0, 1, or 2), and the operator results in the BigInt that would factorize into that array if run through
                     <span class="CalcArray">"primeFactorizeB"</span>.
                 </li>
@@ -697,20 +708,31 @@
                     from smallest to largest.
                 </li>
                 <li>
+                    <span class="CalcArray">"baseConvertB"</span> (2 arguments): Converts a bigint into a string of that number written in some number base.
+                    First argument is the bigint to convert, second argument is either a bigint between 2n and 64n (convert to that base, with the following default digits:
+                    the digits from 0 to 9, the 26 uppercase letters, the lowercase letters, +, /), or an array of strings (uses those strings as the digits for the base it's converting to).
+                </li>
+                <li>
+                    <span class="CalcArray">"baseDeconvertB"</span> (2 arguments): This is technically a string operator, but it made more sense to mention here.
+                    Converts a string of a number written in some number base back into a bigint.
+                    First argument is the string to convert, second argument is either a bigint between 2n and 64n (convert from that base, with the following default digits:
+                    the digits from 0 to 9, the 26 uppercase letters, the lowercase letters, +, /), or an array of strings (uses those strings as the digits for the base it's converting from).
+                </li>
+                <li>
                     <span class="CalcArray">"basebit&B"</span> (3 arguments): Bitwise AND, but the base isn't necessarily 2. First two arguments are the arguments
                     to the AND, third argument is the base. Takes the minimum digit between the two arguments at each place value to get the result.
                 </li>
                 <li>
-                    <span class="CalcArray">"basebit&|B"</span> (3 arguments): Bitwise OR, but the base isn't necessarily 2. First two arguments are the arguments
+                    <span class="CalcArray">"basebit|B"</span> (3 arguments): Bitwise OR, but the base isn't necessarily 2. First two arguments are the arguments
                     to the OR, third argument is the base. Takes the maximum digit between the two arguments at each place value to get the result.
                 </li>
                 <li>
-                    <span class="CalcArray">"basebit~|B"</span> (2 arguments): Bitwise NOT, but the base isn't necessarily 2. First argument is the argument
+                    <span class="CalcArray">"basebit~B"</span> (2 arguments): Bitwise NOT, but the base isn't necessarily 2. First argument is the argument
                     to the NOT, second argument is the base. To get the result, takes the first argument and replaces each of its digits in that base with
                     (base minus that digit).
                 </li>
                 <li>
-                    <span class="CalcArray">"basebit^|B"</span> (3 arguments): Bitwise XOR, but the base isn't necessarily 2. First two arguments are the arguments
+                    <span class="CalcArray">"basebit^B"</span> (3 arguments): Bitwise XOR, but the base isn't necessarily 2. First two arguments are the arguments
                     to the XOR, third argument is the base. Adds (modulo the base) the digits of the two arguments at each place value to get the result.
                 </li>
             </ul>
@@ -722,7 +744,7 @@
                 since if you're using numbers rather than BigInts you probably don't care about primes in that situation.)
             </p>
         </div>
-        <div class="textbox" style="background-color: #6d1969; color: #d380ff; border-color: #c51b9b;">
+        <div id="Part2_bigrational" class="textbox" style="background-color: #6d1969; color: #d380ff; border-color: #c51b9b;">
             <h3>BigRationals</h3>
             <p>
                 In v2.1, a new number type was added to the 2048 Power Compendium: <i>BigRational</i>, exact-precision rational numbers,
@@ -736,7 +758,7 @@
                 <span class="otherCode">new BigRational(1n, 3n).plus(new BigRational(1n, 6n))</span> will return a BigRational with value 1/2,
                 i.e. with a numerator of 1 and a denominator of 2.
                 BigRationals also support the three non-finite floating point values: 1/0 is Infinity, -1/0 is -Infinity (Infinity and -Infinity's
-                numerators simplify to 1 and -1), and 0/0 is NaN.
+                numerators simplify to 1 and -1), and 0/0 is NaN (the existence of these allows for things like dividing by 0 that would cause BigInts to crash).
             </p>
             <p>
                 As with BigInts, you have to make BigRationals differently if you're editing a save code, since <span class="otherCode">stringify</span>
@@ -752,7 +774,7 @@
                 <span class="CalcArray">"floorBR"</span>, <span class="CalcArray">"ceilBR"</span>/<span class="CalcArray">"ceilingBR"</span>
                 (again, truncation isn't included here), <span class="CalcArray">"gcdBR"</span>, <span class="CalcArray">"lcmBR"</span>,
                 <span class="CalcArray">"roundBR"</span>, <span class="CalcArray">"expomodBR"</span> (unlike with numbers and BigInts,
-                here the exponent can be negative: 3/8 has -3 factors of 2 in it, for example), and <span class="CalcArray">"perfectPowerFormBR"</span>.
+                here the exponent can be negative: for example, 3/8 has -3 factors of 2 in it), and <span class="CalcArray">"perfectPowerFormBR"</span>.
             </p>
             <p>
                 <span class="CalcArray">"defaultAbbrevBR"</span> writes BigRationals as mixed numbers.
@@ -783,20 +805,33 @@
                 </li>
             </ul>
             <p>
-                BigRational was made so far as it was needed for the Power Compendium's use. As such, it does not include methods like roots, logs, or trig functions
-                at this time. Those operations don't return rational numbers - numbers and BigInts can have versions of them because they have limited "granularity"
-                (i.e. there is a nonzero step size between each possible value), but BigRationals can get as precise as needed, so a root, log, or trig function
-                would never reach a sufficiently exact answer. Such an operator would require an extra argument specifying a level of precision to stop the algorithm
-                at. I'll probably extend the BigRational class to include these operators someday, but for now they are not included (and even if they are added someday,
-                it'll probably be in a different project that uses BigRational, not in the Power Compendium).
+                v3.0 added a few more BigRational operators that attempt to include functions that aren't guaranteed to stay rational, with the twist
+                that they always round the result to some rounding fraction (since their exact results can't be represented by BigRational):
             </p>
+            <ul>
+                <li>
+                    <span class="CalcArray">"^RBR"</span>/<span class="CalcArray">"**RBR"</span> (3 arguments): Exponentiation. The second argument
+                    is a BigRational this time, but here there's a third argument, and the result of the exponentiation of the first two arguments is rounded to
+                    the nearest multiple of the third argument.
+                </li>
+                <li>
+                    <span class="CalcArray">"logRBR"</span>(3 arguments): Logarithm. First argument is the input, second argument is the base,
+                    and the result is rounded to the nearest multiple of the third argument.
+                </li>
+                <li>
+                    <span class="CalcArray">"sinRBR"</span>, <span class="CalcArray">"cosRBR"</span>(2 arguments): Trig functions.
+                    First argument is the input, second argument is the rounding multiple. Whereas the rounding for exponents and logarithms will always go
+                    in the right direction, here the rounding might go in the wrong direction if the result is extremely close
+                    (on the order of a trillionth of the rounding multiple) to the point where the rounded result changes.
+                </li>
+            </ul>
             <p>
                 BigRationals are used in a few places in the Power Compendium's code - places where both non-integer values and exact precision are needed.
                 They're most visibly used in the Partial Absorb variant of the mode 180, but they're also used for the colors of tiles in mod 27,
                 calculating the ratio between tiles in 3385, and a few other places.
             </p>
         </div>
-        <div class="textbox" style="background-color: #516d19; color: #e8ff80; border-color: #bfc51b;">
+        <div id="Part2_gaussianbigint" class="textbox" style="background-color: #516d19; color: #e8ff80; border-color: #bfc51b;">
             <h3>GaussianBigInts</h3>
             <p>
                 This is the other number type class that the Compendium uses that's not a native JS type. GaussianBigInts were actually added before BigRationals,
@@ -806,7 +841,7 @@
                 unless you're in a save code, in which case you'd do <span class="CalcArray">"@GaussianBigInt 2 3"</span> instead.
             </p>
             <p>
-                The complex numbers aren't ordered, so inequalities don't work on them: inequalities on GaussianBigInts will always return false,
+                The complex numbers aren't ordered, so inequalities don't work on them: inequalities on GaussianBigInts will always result in false,
                 max/min on GaussianBigInts will throw an error.
             </p>
             <p>
@@ -856,6 +891,9 @@
                     <span class="CalcArray">"normGGB"</span> (1 argument): Results in the norm (the square of the absolute value) of the argument, as a GaussianBigInt.
                 </li>
                 <li>
+                    <span class="CalcArray">"phaseGB"</span> (1 argument): Results in the phase (angle) of the argument, as a number.
+                </li>
+                <li>
                     <span class="CalcArray">"toFirstQuadrantGB"</span> (1 argument): Multiplies the argument by the necessary power of i to rotate it into the first
                     quadrant of the complex plane (or the positive real axis, if it's purely real or purely imaginary).
                 </li>
@@ -888,14 +926,14 @@
                 in the waves mode Gaussian DIVE.
             </p>
         </div>
-        <div class="textbox" style="background-color: #635c31; color: #e6c297; border-color: #b17e1f;">
+        <div id="Part2_other" class="textbox" style="background-color: #635c31; color: #e6c297; border-color: #b17e1f;">
             <h3>Other Operators</h3>
             <p>And now for the operators that don't fall under one of the above categories.</p>
             <p>
                 First, there's the type conversion operators, which all take 1 argument: <span class="CalcArray">"Number"</span>, <span class="CalcArray">"String"</span>,
                 <span class="CalcArray">"Boolean"</span>, <span class="CalcArray">"Array"</span>, <span class="CalcArray">"BigInt"</span>, <span class="CalcArray">"GaussianBigInt"</span>,
                 and <span class="CalcArray">"BigRational"</span>, which each convert the argument into their respective type.
-                <span class="CalcArray">"Number"</span> on a GaussianBigInt will return 0 unless the GaussianBigInt is pure real, while
+                <span class="CalcArray">"Number"</span> on a GaussianBigInt will result in 0 unless the GaussianBigInt is pure real, while
                 <span class="CalcArray">"Number"</span> on a BigRational works properly (i.e. converting the BigRational 3/2 to a number gives the number 1.5).
                 Unlike in JavaScript, arrays converted to strings in CalcArrays will include the brackets on the edges of the array.
                 A GaussianBigInt converted into a string will be written as "a+bi" or "a-bi" where a and b are the component numbers.
@@ -915,10 +953,10 @@
                 "number", "string", "boolean", "array", "bigint", "gaussianbigint", or "bigrational".
                 (CalcArrays don't have tools built in to handle the value <span class="otherCode">undefined</span>,
                 so it's recommended to avoid writing CalcArrays that could get undefined involved, but if it shows up anyway,
-                <span class="CalcArray">"typeof"</span> will still return "undefined" on it.)
+                <span class="CalcArray">"typeof"</span> will still result in "undefined" on it.)
             </p>
             <p>
-                There's a couple simple ones that just return one of the arguments, ignoring the other one:
+                There's a couple simple ones that just result in one of the arguments, ignoring the other one:
             </p>
             <ul>
                 <li>
@@ -926,7 +964,7 @@
                     Useful if you want the second argument to do some side effect like changing a variable, but not affect the running value directly.
                     For the sake of readability, it's recommended to use <span class="CalcArray">"1st"</span> when the second argument has a side effect,
                     while it's recommended to use <span class="CalcArray">"ignore"</span> if you're using the second argument to leave a comment in the CalcArray.
-                    (P.S. Simply returning the first argument is also the default action when something other than a valid operator is in
+                    (P.S. Simply resulting in the first argument is also the default action when something other than a valid operator is in
                     an operator position in a CalcArray)
                 </li>
                 <li>
@@ -947,11 +985,18 @@
             </p>
             <p>
                 <span class="CalcArray">"defaultAbbrevAny"</span> is a typeless version of the other defaultAbbrev operators, which will call one of the four of those
-                depending on the type of the argument (it will leave the argument unchanged if it's not one of the four numeric types).
+                depending on the type of the argument (it will leave the argument unchanged if it's not one of the four numeric types). Remember that this will always
+                result in a string for BigInts, BigRationals, and GaussianBigInts, but it might result in a string or a text expression for numbers because of scientific notation
+                having a superscript.
             </p>
             <p>
                 <span class="CalcArray">"@primesUpdate"</span> (2 arguments) updates the array of prime numbers that the Compendium currently has stored so that it contains every prime
                 up to at least the second argument, and then it results in the first argument (so it leaves the CalcArray's running value unchanged).
+            </p>
+            <p>
+                <span class="CalcArray">"multicolor"</span> (2 arguments) is an operator used in the implementation of Multicolor Tiles. The first argument
+                is an array of numbers, and the second argument is the amount of colors. The result is the "next" number in the cycle, or -1 if
+                the array doesn't fit the multicolor tiles cycle requirement.
             </p>
             <p>
                 There's a couple operators that evaluate CalcArrays within a CalcArray.
@@ -967,7 +1012,7 @@
                 <span class="CalcArray">"DIVESeedUnlock"</span>, which takes three arguments.
                 <span class="CalcArray">"DIVESeedUnlock"</span>'s first argument is a bigint, its second argument is a list of bigints, and its third argument is a number (either 0, 1, 2, 3, or 4).
                 <span class="CalcArray">"DIVESeedUnlock"</span> checks the first argument as a new tile being made in DIVE to see if it would unlock a new seed.
-                The second argument is the list of existing seeds to try dividing it by. The resulting value is what new seed would be unlocked (if it returns 1n, that means
+                The second argument is the list of existing seeds to try dividing it by. The resulting value is what new seed would be unlocked (if it results in 1n, that means
                 no unlock, since the first argument can be fully divided by the existing seeds).
                 The third argument is the mode to do the checks in: mode 0 checks the seeds largest to smallest, mode 1 uses the recursive algorithm the original DIVE uses that ensures the minimum
                 possible outcome (but this theoretically runs in exponential, or perhaps factorial, time with respect to the number of seeds, so it could get quite laggy,
@@ -982,15 +1027,15 @@
             </p>
         </div>
     </div>
-    <div class="textbox" style="background-color: #464000; color: #fff79a; border-color: #c3be2b;">
+    <div id="Part3" class="textbox" style="background-color: #464000; color: #fff79a; border-color: #c3be2b;">
         <h2>Part 3: Other CalcArray Features</h2>
-        <div class="textbox" style="background-color: #432456; color: #be8ae2; border-color: #943fd0;">
+        <div id="Part3_conditionalsAndLoops" class="textbox" style="background-color: #432456; color: #be8ae2; border-color: #943fd0;">
             <h3>Conditionals and Loops</h3>
             <p>
                 The string <span class="CalcArray">"@if"</span> is placed in a CalcArray in the position that an operator would be, but it's not
                 considered an operator itself. <span class="CalcArray">"@if"</span> creates an if statement: the next entry of the CalcArray after the
                 <span class="CalcArray">"@if"</span> should be a CalcArray that would result in a boolean, and then the terms after that (the first of which should be an operator itself,
-                and continue the CalcArray from there) will only be applied if that boolean CalcArray expression returned true.
+                and continue the CalcArray from there) will only be applied if that boolean CalcArray expression resulted in true.
                 The if statement lasts until an <span class="CalcArray">"@end-if"</span> is reached.
             </p>
             <p>
@@ -1006,7 +1051,7 @@
                 <span class="CalcArray">"@end-else"</span> or <span class="CalcArray">"@end-else-if"</span> (respectively) is reached.
                 An <span class="CalcArray">"@else"</span> or <span class="CalcArray">"@else-if"</span> statement will be skipped unless the most
                 recent <span class="CalcArray">"@if"</span> or <span class="CalcArray">"@else-if"</span> statement in this CalcArray had its boolean
-                expression return false, and there hasn't been another <span class="CalcArray">"@else-if"</span> or <span class="CalcArray">"@else"</span>
+                expression result in false, and there hasn't been another <span class="CalcArray">"@else-if"</span> or <span class="CalcArray">"@else"</span>
                 checked since the most recent false-resulting <span class="CalcArray">"@if"</span> or <span class="CalcArray">"@else-if"</span> check.
                 An <span class="CalcArray">"@else"</span> statement does not have a boolean-resulting CalcArray after the <span class="CalcArray">"@else"</span>:
                 if the most recent <span class="CalcArray">"@if"</span> or <span class="CalcArray">"@else-if"</span> boolean resulted in false, the
@@ -1014,8 +1059,8 @@
                 should be the operator that starts the <span class="CalcArray">"@else"</span> statement.
                 <span class="CalcArray">"@else-if"</span>, like <span class="CalcArray">"@if"</span>, does have a boolean CalcArray as the first element after the
                 <span class="CalcArray">"@else-if"</span>, so for an <span class="CalcArray">"@else-if"</span> statement to be applied, the most recent
-                <span class="CalcArray">"@if"</span> or <span class="CalcArray">"@else-if"</span>'s boolean expression must have returned false, <i>and</i> the
-                <span class="CalcArray">"@else-if"</span>'s boolean expression must return true.
+                <span class="CalcArray">"@if"</span> or <span class="CalcArray">"@else-if"</span>'s boolean expression must have resulted in false, <i>and</i> the
+                <span class="CalcArray">"@else-if"</span>'s boolean expression must result in true.
             </p>
             <p>
                 To make loops, you use <span class="CalcArray">"@repeat"</span>. The term after a <span class="CalcArray">"@repeat"</span>
@@ -1035,7 +1080,7 @@
                 pretty much untested - so it might not work anyway.
             </p>
         </div>
-        <div class="textbox" style="background-color: #6d1c50; color: #ff7dd1; border-color: #d32496;">
+        <div id="Part3_parents" class="textbox" style="background-color: #6d1c50; color: #ff7dd1; border-color: #d32496;">
             <h3>Parents</h3>
             <p>
                 Strings with an @ at the beginning of them tend to do special things in a CalcArray.
@@ -1067,7 +1112,7 @@
                 each time it's reached.
             </p>
         </div>
-        <div class="textbox" style="background-color: #742300; color: #ffc5a7; border-color: #bb876b;">
+        <div id="Part3_variables" class="textbox" style="background-color: #742300; color: #ffc5a7; border-color: #bb876b;">
             <h3>Variables</h3>
             <p>
                 Normally, the only changing value that a CalcArray stores is its "running value" (its current first argument), as well as being able to access the
@@ -1156,13 +1201,13 @@
                 if you put <span class="CalcArray">"@include_gvars"</span> at the beginning of a CalcArray, then the current values of the game variables
                 will be copied into the beginning of the variables list in that CalcArray.
                 <span class="CalcArray">"@include_gvars"</span> was added before <span class="CalcArray">"@GVar"</span> strings, so it's an outdated feature you probably shouldn't use
-                (just use <span class="CalcArray">"@GVar"</span> strings to acces them), but I still had to mention it.
+                (just use <span class="CalcArray">"@GVar"</span> strings to access them), but I still had to mention it.
             </p>
         </div>
-        <div class="textbox" style="background-color: #740f00; color: #ff8888; border-color: #cc5555;">
+        <div id="Part3_arrayVariables" class="textbox" style="background-color: #740f00; color: #ff8888; border-color: #cc5555;">
             <h3>Array Operators with CalcArray Arguments</h3>
             <p>
-                Remember those five array operators I mentioned earlier as being too complicated to discuss yet?
+                Remember those seven array operators I mentioned earlier as being too complicated to discuss yet?
                 That was because using them requires an understanding of variables, so now I can tell you how they work.
                 Each of these operators has one of its arguments be a CalcArray expression; what that expression does depends on the operator,
                 but in all of these cases, it will be run multiple times.
@@ -1172,7 +1217,7 @@
                 etc. to access their values.
             </p>
             <p>
-                Here are the five operators in question:
+                Here are the seven operators in question:
             </p>
             <ul>
                 <li>
@@ -1182,7 +1227,7 @@
                     The comparison CalcArray should result in a negative number if <span class="CalcArray">"@Var -2"</span> should come before <span class="CalcArray">"@Var -1"</span>
                     in the sorted array, it should result in a positive number if <span class="CalcArray">"@Var -2"</span> should come after <span class="CalcArray">"@Var -1"</span>
                     in the sorted array, and it should result in 0 if the two are considered equal (i.e. it doesn't matter what order they go in).
-                    The comparison function must return a <i>number</i>, not a bigint or another numeric type.
+                    The comparison function must result in a <i>number</i>, not a bigint or another numeric type.
                     For example, <span class="CalcArray">[["@Literal", 1, 5, 4, 2, 3], "arr_sort", ["@Var -2", "-", "@Var -1"]]</span> sorts the array by numeric value from
                     least to greatest, resulting in [1, 2, 3, 4, 5].
                 </li>
@@ -1196,7 +1241,7 @@
                 </li>
                 <li>
                     <span class="CalcArray">"arr_filter"</span> (2 arguments): The first argument is an array, the second argument is a CalcArray expression.
-                    The second argument should return a boolean; the result of this operator is an array containing only the elements of the first array where
+                    The second argument should result in a boolean; the result of this operator is an array containing only the elements of the first array where
                     the CalcArray expression resulted in true.
                     Inside the CalcArray expression, <span class="CalcArray">"@Var -1"</span> is the element currently being operated on,
                     and <span class="CalcArray">"@Var -2"</span> is the index of that element in the array.
@@ -1218,6 +1263,16 @@
                     <span class="CalcArray">"arr_reduceRight"</span> (3 arguments): Same as <span class="CalcArray">"arr_reduce"</span>, except
                     whereas <span class="CalcArray">"arr_reduce"</span>'s run starts at the 0th element of the array and goes forwards through the array,
                     <span class="CalcArray">"arr_reduceRight"</span>'s run starts at the last element of the array and goes backwards through the array.
+                </li>
+                <li>
+                    <span class="CalcArray">"arr_binarySearchCF"</span> (3 arguments): Like <span class="CalcArray">"arr_binarySearch"</span>, but instead of relying
+                    on default inequalities, it has a third argument, which is a CalcArray comparison function (in the same manner as <span class="CalcArray">arr_sort</span>'s comparison function)
+                    that the array is assumed to be sorted by for the binary search. 
+                </li>
+                <li>
+                    <span class="CalcArray">"arr_binaryInsertCF"</span> (3 arguments): Like <span class="CalcArray">"arr_binaryInsert"</span>, but instead of relying
+                    on default inequalities, it has a third argument, which is a CalcArray comparison function (in the same manner as <span class="CalcArray">arr_sort</span>'s comparison function)
+                    that the array is assumed to be sorted by for the binary insert. 
                 </li>
             </ul>
             <p>
@@ -1244,7 +1299,7 @@
                 </li>
                 <li>
                     The eighth argument is a two-argument functions that defines whether two values are considered coprime in this context. 
-                    (You can set this to just return false if you don't have a good meaning for it, though this may make modes 1 and 4 run slower!)
+                    (You can set this to just result in false if you don't have a good meaning for it, though this may make modes 1 and 4 run slower!)
                 </li>
                 <li>
                     The ninth argument is the value used for the multiplicative identity 1.
@@ -1264,9 +1319,9 @@
             </p>
         </div>
     </div>
-    <div class="textbox" style="background-color: #461e00; color: #ffd09a; border-color: #c3562b;">
+    <div id="Part4" class="textbox" style="background-color: #461e00; color: #ffd09a; border-color: #c3562b;">
         <h2>Part 4: How CalcArrays are Used in Modes</h2>
-        <div class="textbox" style="background-color: #3a2f4b; color: #a58cd3; border-color: #505084;">
+        <div id="Part4_arguments" class="textbox" style="background-color: #3a2f4b; color: #a58cd3; border-color: #505084;">
             <h3>CalcArray()'s Other Arguments</h3>
             <p>
                 So far, everything we've discussed has been within the CalcArray, i.e. the primary argument (argument #0, since the JS arguments array is 0-indexed)
@@ -1286,10 +1341,12 @@
             </p>
             <p>
                 Argument #5 is an array of additional arguments (it was made to be an array so that if I add any more info later on, I won't have to mess with
-                the order of the arguments). As of now, this array has meanings for up to three arguments: index 0 has the length of the current merge if one is occuring,
-                index 1 has the maximum spaces per move of the current movement direction, and index 2 has the "move type" (I think this is used for something related to
-                automatic moves, though I don't remember what exactly it distinguishes).
-                This argument is [1, Infinity, 0] by default.
+                the order of the arguments). As of now, this array has meanings for up to four arguments: index 0 has the length of the current merge if one is occuring,
+                index 1 has the maximum spaces per move of the current movement direction, index 2 has the "move type"
+                (I'll explain what "move type" is in the Movement Directions section later), and index 3 has what the index of the current movement direction is
+                (a positive integer for manual directions (so this would be 3 for the entry of the directions array with index 2),
+                a negative integer for automatic directions, 0 for no direction).
+                This argument is [1, Infinity, 0, 0] by default.
             </p>
             <p>
                 Argument #6 is the grid of tiles that is being worked on. The default here is the normal grid; when something else is being used for this argument,
@@ -1302,8 +1359,10 @@
                 here's what they do anyway: argument #7 is the array of parent values, argument #8 is the variables array,
                 argument #9 is the "global variable stat" (<span class="CalcArray">"@global_var_retain"</span> sets this to 1,
                 <span class="CalcArray">"@global_var_copy"</span> sets this to -1, <span class="CalcArray">"@global_var_none"</span> sets this to 0),
-                and argument #10 is an argument called "inner" that's usually true; this argument determines whether this actually counts as a child CalcArray
-                (thus adding its running value to the parents chain) or not (if, else, else-if, and repeat do a recursion call but without actually counting as a child CalcArray).
+                argument #10 is an argument called "inner" (that's usually true) which determines whether this actually counts as a child CalcArray
+                (thus adding its running value to the parents chain) or not (if, else, else-if, and repeat do a recursion call but without actually counting as a child CalcArray),
+                and argument #11 is an argument called "outermost" that stores whether this array is the outermost layer of the CalcArray expression (the CalcArrays
+                inside operators like <span class="CalcArray">"arr_sort"</span> that are acting as separate functions also have this set to true).
             </p>
             <p>
                 If you're making a 2048 Power Compendium mode, you'll be writing most of your "code" in CalcArrays themselves, so you shouldn't be worrying about
@@ -1311,7 +1370,7 @@
                 (like random goals) do have to deal with this. However, understanding what data a CalcArray tracks will be useful for the rest of this part.
             </p>
         </div>
-        <div class="textbox" style="background-color: #a78234; color: #ffe7b3; border-color: #dabc8a;">
+        <div id="Part4_tiles" class="textbox" style="background-color: #a78234; color: #ffe7b3; border-color: #dabc8a;">
             <h3>Internal Representations of Tiles</h3>
             <p>
                 Before I can explain how things like tile display rules and merge rules work, I have to explain what a tile actually is internally.
@@ -1378,7 +1437,7 @@
                 I included them here because they provide context that's needed for what comes next.
             </p>
         </div>
-        <div class="textbox" style="background-color: #755207; color: #ffb76a; border-color: #dbbd5d;">
+        <div id="Part4_strings" class="textbox" style="background-color: #755207; color: #ffb76a; border-color: #dbbd5d;">
             <h3>Other Special Strings</h3>
             <p>
                 <span class="CalcArray">@Parent</span>, <span class="CalcArray">@Var</span>, and <span class="CalcArray">@GVar</span> strings
@@ -1435,15 +1494,20 @@
                     The following special strings give you the CalcArray's other arguments: <span class="CalcArray">"@VCoord"</span> and <span class="CalcArray">"@HCoord"</span>
                     evaluate to the vertical and horizontal arguments the CalcArray is running at (arguments #1 and #2), <span class="CalcArray">"@VDir"</span> and
                     <span class="CalcArray">"@HDir"</span> evaluate to the vertical and horizontal components of the current movement direction (arguments #3 and #4),
-                    <span class="CalcArray">"@MLength"</span>, <span class="CalcArray">"@SlideAmount"</span>, <span class="CalcArray">"@MoveType"</span>
-                    evaluate to their corresponding entries in argument #5 (the length of the current merge, the maximum spaces moved per move, and the move type),
+                    <span class="CalcArray">"@MLength"</span>, <span class="CalcArray">"@SlideAmount"</span>, <span class="CalcArray">"@MoveType"</span>,
+                    and <span class="CalcArray">"@DirectionIndex"</span>
+                    evaluate to their corresponding entries in argument #5 (the length of the current merge, the maximum spaces moved per move, the move type, and the direction index),
                     and <span class="CalcArray">"@TileContainer"</span> evaluates to whatever "grid" the CalcArray is being called on (argument #6; note that 
                     while <span class="CalcArray">@This</span>, <span class="CalcArray">@Next</span>, etc. all work within the appropriate tile container,
                     <span class="CalcArray">@Grid</span> strings always look at the actual grid regardless of if the CalcArray's argument #6 is some other container!)
                 </li>
                 <li>
                     <span class="CalcArray">@MVar</span> strings are like <span class="CalcArray">@GVar</span> strings, but they refer to the modifier variables,
-                    which are set by the global modifiers rather than by the mode. Currently the only modifier setting that uses this is "To merge tiles, you must move in the same direction twice in a row.".
+                    which are set by the global modifiers rather than by the mode.
+                    <span class="CalcArray">@MVarIndex</span> strings tell you which modifiers the modifier variables come from:
+                    for example, if <span class="CalcArray">"@MVar 1"</span> was created by the global modifier with internal index 20 (what the modifiers are
+                    is explained in Part 5), then <span class="CalcArray">"@MVarIndex 20"</span> will result in 1.
+                    <span class="CalcArray">"@MVarIndex"</span> alone results in the whole array of modifier variable indices.
                 </li>
                 <li>
                     The following strings take no indices and evaluate to some statistic tracked during the game:
@@ -1453,7 +1517,7 @@
                     (Like <span class="CalcArray">"@Merges"</span>, except it only updates at the end of a move instead of whenever merges occur).
                 </li>
                 <li>
-                    The following strings evaluate to some array of tiles tracked during the game, and you can add indices to them to return a single tile (with one index) or a
+                    The following strings evaluate to some array of tiles tracked during the game, and you can add indices to them to get a single tile (with one index) or a
                     single element of a single tile (with two indices) and so on:
                     <span class="CalcArray">"@DiscTiles"</span> (an array of all tiles discovered this game), <span class="CalcArray">"@DiscWinning"</span> (an array of the tiles
                     that satisfy the mode's win condition), <span class="CalcArray">"@DiscLosing"</span> (an array of the tiles that satisfy the mode's premature loss condition),
@@ -1472,6 +1536,19 @@
                     with earlier entries meaning those coordinates come earlier in the merge order.
                 </li>
                 <li>
+                    <span class="CalcArray">"@InGameStatus"</span> evaluates to 2 if in the middle of a move, 1 if between moves, 0 if on the save code export screen in the middle of a game,
+                    -1 if on the win screen with postgameAllowed, -2 if the game is over, and -Infinity if not in a game at all.
+                </li>
+                <li>
+                    <span class="CalcArray">"@TimeSinceStartGame"</span> evaluates to the amount of seconds since the game began,
+                    <span class="CalcArray">"@TimeSinceFirstMove"</span> evaluates to the amount of seconds since the first move of the game began,
+                    <span class="CalcArray">"@TimeSinceMoveStart"</span> evaluates to the amount of seconds since the most recent move started,
+                    <span class="CalcArray">"@TimeSinceMoveEnd"</span> evaluates to the amount of seconds since the most recent move ended,
+                    <span class="CalcArray">"@TimestampVictory"</span> evaluates to the amount of seconds between the start of the game and the moment of victory,
+                    and <span class="CalcArray">"@TimestampGameOver"</span> evaluates to the amount of seconds between the start of the game and the moment of game over.
+                    These will evaluate to -1 if their conditions have not happened yet.
+                </li>
+                <li>
                     The following strings don't evaluate to anything special themselves (i.e. they remain as that string in a CalcArray), but they're the strings used by special
                     kinds of tiles and thus still have some special behaviors: <span class="CalcArray">"@Empty"</span> for empty spaces, <span class="CalcArray">"@Void"</span>
                     for holes in the grid, <span class="CalcArray">"@Slippery"</span> for slippery tiles, and <span class="CalcArray">"@TemporaryHole n"</span>, where n is a number,
@@ -1479,9 +1556,16 @@
                     Moving block tiles and Garbage 0s are <i>not</i> explicitly "special" tiles internally; those modifiers add new tiles to the regular tile types and modify
                     the merge rules to include them.
                 </li>
+                <li>
+                    Finally, only at the end of the outermost CalcArray layer (i.e. in the final resulting value of the entire CalcArray as a whole), any strings that begin with
+                    at least two @'s will have one of those front @'s removed. This is useful if you need to manipulate a CalcArray inside another CalcArray and you need to smuggle
+                    "@Literal" strings in, which you could do by using <span class="CalcArray">"@@Literal"</span>, which will be turned into <span class="CalcArray">"@Literal"</span> once the CalcArray is done.
+                    Note that certain cases, primarily the CalcArrays inside operators like <span class="CalcArray">arr_sort</span> that are meant to represent independent functions,
+                    are treated as "outermost" CalcArrays for this.
+                </li>
             </ul>
         </div>
-        <div class="textbox" style="background-color: #921442; color: #ffb2bf; border-color: #ec4a65;">
+        <div id="Part4_colorExpressions" class="textbox" style="background-color: #921442; color: #ffb2bf; border-color: #ec4a65;">
             <h3>Color Expressions</h3>
             <p>
                 A color expression is an array similar to a CalcArray that represents some color. Instead of the CalcArray()
@@ -1508,8 +1592,8 @@
                 90 is left-to-right, 180 is top-to-bottom, 270 is right-to-left, and values between multiples of 90 will be some form of diagonal)
                 For example, if you want a gradient that goes from left-to-right, starts at red, goes to yellow 20% of the way through and stays yellow until 45% of the way through,
                 then ends at blue, you'd do <span class="CalcArray">["@linear-gradient", 90, ["@HSLA", 0, 100, 50, 0], 0, ["@HSLA", 60, 100, 50, 0], 20, 45, ["@HSLA", 240, 100, 50, 0], 100]</span>,
-                or some variation of such. (Note that any CalcArray within a gradient will be assumed to be a color, even if it would return a number. To mark a CalcArray within a gradient
-                as "this will return a number for a gradient position, not a color", put <span class="CalcArray">"@CalcArrayNumber"</span> at the start of that gradient entry.)
+                or some variation of such. (Note that any CalcArray within a gradient will be assumed to be a color, even if it would result in a number. To mark a CalcArray within a gradient
+                as "this will result in a number for a gradient position, not a color", put <span class="CalcArray">"@CalcArrayNumber"</span> at the start of that gradient entry.)
             </p>
             <p>
                 The other gradient types are <span class="CalcArray">"@radial-gradient"</span> (gradient positions are still from 0 to 100, with 0 being the center and 100 being the edge),
@@ -1528,8 +1612,82 @@
                 The 1st element is the amount of degrees to rotate by, the 2nd element is a boolean that, if true, also inverts the lightness of the color (lightness becomes 100 - lightness),
                 and the 3rd argument is the color expression to be rotated. If the color expression is a gradient or multi-gradient, all of the colors in it are rotated.
             </p>
+            <p>
+                If the first entry of a color expression is <span class="CalcArray">"@CalcArray"</span>, then the array with that first entry removed is first evaluated as a CalcArray,
+                and then the result of that CalcArray is what's evaluated as a color expression.
+            </p>
         </div>
-        <div class="textbox" style="background-color: #633273; color: #c8acd7; border-color: #7f54b5;">
+        <div id="Part4_textExpressions" class="textbox" style="background-color: #515f1d; color: #c5e591; border-color: #7ea71e;">
+            <h3>Text Expressions</h3>
+            <p>
+                Before v3.0, displayed text could freely include HTML elements like &lt;b&gt; and &lt;sup&gt; - Isotopic 256 used this for its atomic numbers,
+                for one example. But it was eventually pointed out that this allowed for a "scope escape", allowing CalcArrays to in theory run HTML, CSS, and maybe even
+                JS code outside of its purview.
+                As such, v3.0 closed the scope escape by running these text strings through HTML entity encoding (using the open-source library <a href="https://mothereff.in/html-entities">he</a>),
+                but this would have disallowed superscripts, Unicode characters beyond ASCII, and other such things entirely. As such, the "text expression" system was introduced.
+                <br>
+                Under many circumstances, a text expression is just evaluated as a CalcArray, except its result is always converted into a string and encoded by he.
+                However, there are special strings that, if the array starts with one of those strings, the array is in "text expression mode" instead,
+                where each entry is itself evaluated as a text expression, and then all those strings are concatenated together.
+                There can be multiple of these strings in front of the same text expression.
+                The he encoding only occurs on the CalcArray layers, so outside of those, some of these HTML things are supported - but calculations can't be done
+                outside the CalcArray layers, only string concatenations and certain supported text effects.
+                For example, the text expression <span class="CalcArray">["@TextE", "Hi! ", ["@Bold", "woah, "], ["@Italic", ["a", "str_concat", "b"]]]</span> would result in
+                "Hi! <b>woah, </b><i>ab</i>", as the <span class="CalcArray">["a", "+", "b"]</span> doesn't start with one of the text expression strings, so it's treated as a CalcArray.
+                Once you're inside a CalcArray layer, you can't put text expression layers inside it, the text expression stuff needs to go on the outside.
+            </p>
+            <p>
+                Text expressions are used in places like the text on tiles, the rules text, and the text on stat boxes. Here's the list of starting strings that trigger text expression mode:
+            </p>
+            <ul>
+                <li>
+                    <span class="CalcArray">"@TextE"</span>: Has no special effects other than triggering, or maintaining, text expression mode.
+                    It's often worth it to have the outermost text expression always start with this, as there are certain cases (such as
+                    converting a special string like an @Var string into its value and then evaluating that value as a text expression,
+                    or if you put <span class="CalcArray">"@CalcArray"</span> in front of the array to evaluate it as a CalcArray first and then
+                    evaluate the result as a text expression) where
+                    it'll only recognize text expression mode if "@TextE" is what the outermost one starts with.
+                </li>
+                <li>
+                    <span class="CalcArray">"@Bold"</span>: The text inside this part of the text expression is in <b>bold</b>.
+                </li>
+                <li>
+                    <span class="CalcArray">"@Italic"</span>: The text inside this part of the text expression is in <i>italics</i>.
+                </li>
+                <li>
+                    <span class="CalcArray">"@Underline"</span>: The text inside this part of the text expression is <span style="text-decoration: underline;">underlined</span>.
+                </li>
+                <li>
+                    <span class="CalcArray">"@Overline"</span>: The text inside this part of the text expression is <span style="text-decoration: overline;">overlined</span>.
+                </li>
+                <li>
+                    <span class="CalcArray">"@Strikethrough"</span>: The text inside this part of the text expression is <span style="text-decoration: line-through;">struck-through</span>.
+                </li>
+                <li>
+                    <span class="CalcArray">"@Superscript"</span>: The text inside this part of the text expression is a <sup>superscript</sup> (there can be multiple @Superscript's for nested superscripts).
+                </li>
+                <li>
+                    <span class="CalcArray">"@Subscript"</span>: The text inside this part of the text expression is a <sub>subscript</sub> (there can be multiple @Subscript's for nested subscripts).
+                </li>
+                <li>
+                    <span class="CalcArray">"@TextColor"</span>: The entry in the array after the "@TextColor" is a color expression that, when evaluated, says what color this text is turned into.
+                    This must be a plain color, not a gradient. The strings to concatenate begin after that color expression.
+                </li>
+                <li>
+                    <span class="CalcArray">"@TextShadow"</span>:
+                    There are four arguments after the "@TextShadow" but before the strings to concatenate, which determine the properties of the text shadow:
+                    the first two are the position of the shadow (CalcArrays that result in a number of px), the third is the blur of the shadow (CalcArray that results in a number of px),
+                    and the fourth is the color of the shadow (color expression).
+                </li>
+            </ul>
+            <p>
+                The starting string <span class="CalcArray">"@ComposeTE"</span> also has effects involving text expressions, but you shouldn't use this.
+                What it does is evaluate the rest of the array as a CalcArray, then take that CalcArray and turn formerly supported HTML elements like
+                &lt;sup&gt; into their text expression counterparts. This was designed for use in the code to import pre-v3.0 save codes, not for use
+                by modders.
+            </p>
+        </div>
+        <div id="Part4_tileDisplay" class="textbox" style="background-color: #633273; color: #c8acd7; border-color: #7f54b5;">
             <h3>Tile Display Rules</h3>
             <p>
                 We've covered most of what CalcArrays do themselves now, so it's time to discuss the places in the 2048 Power Compendium mode they're contained within.
@@ -1593,12 +1751,12 @@
                 <li>
                     If you want to create a list of these that has a variable amount of entries, such as if you need the amount of PrimeImages to depend
                     on the tile, use an "ExtraEntriesList" array. After the "ExtraEntriesList" at the beginning, the rest of the array is evaluated as
-                    a CalcArray. This CalcArray should return an array of addon arrays (i.e. an array of Innerscript and/or PrimeImage arrays),
+                    a CalcArray. This CalcArray should result in an array of addon arrays (i.e. an array of Innerscript and/or PrimeImage arrays),
                     and then once that has been evaluated, each of those Innerscripts and PrimeImages are themselves evaluated and added to the tile.
                 </li>
             </ul>
         </div>
-        <div class="textbox" style="background-color: #3d677a; color: #9fc7e9; border-color: #2f97dd;">
+        <div id="Part4_colorSchemes" class="textbox" style="background-color: #3d677a; color: #9fc7e9; border-color: #2f97dd;">
             <h3>Special Color Schemes</h3>
             <p>
                 Most modes use color expressions to determine the colors/backgrounds of their tiles, but there's a collection of color schemes that
@@ -1673,7 +1831,7 @@
                     "Three-Tile SQUART" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default)
                 </li>
                 <li>
-                    "TRIGAT"
+                    "TRIGAT" (1st parameter is the amount of sides, 3 by default)
                 </li>
                 <li>
                     "Anti-DIVE" (An inverted colors version of the DIVE color scheme.
@@ -1698,9 +1856,11 @@
             <p>
                 Special color schemes can also be used in PrimeImages. To do so, instead of having the 1st entry of the prime image be the gradient,
                 have it be an array of the form ["@ColorScheme", whatever the special color scheme is, the value to put into the color scheme, ...color scheme parameters].
+                (PrimeImages can also have a tile display rule used for them, by having the 1st entry of the prime image be the tile display rule
+                with "@DisplayTile" replacing the boolean check of the tile display rule)
             </p>
         </div>
-        <div class="textbox" style="background-color: #796700; color: #ffef5e; border-color: #d4c820;">
+        <div id="Part4_mergeRules" class="textbox" style="background-color: #796700; color: #ffef5e; border-color: #d4c820;">
             <h3>Merge Rules</h3>
             <p>
                 TileTypes is one of the two main places where CalcArrays are used in every mode.
@@ -1713,7 +1873,7 @@
                     The 0th entry of a merge rule is the length of the merge.
                 </li>
                 <li>
-                    The 1st entry of a merge rule is a CalcArray that returns a boolean. The merge is considered valid if, when some tiles collide, that CalcArray returns true when run on
+                    The 1st entry of a merge rule is a CalcArray that results in a boolean. The merge is considered valid if, when some tiles collide, that CalcArray results in true when run on
                     the tile furthest backwards in the movement direction (i.e. the one colliding into the rest).
                 </li>
                 <li>
@@ -1797,7 +1957,7 @@
                 </li>
             </ul>
         </div>
-        <div class="textbox" style="background-color: #007f5b; color: #a8ffde; border-color: #71e3ff;">
+        <div id="Part4_spawns" class="textbox" style="background-color: #007f5b; color: #a8ffde; border-color: #71e3ff;">
             <h3>Tile Spawns</h3>
             <p>
                 The variable startTileSpawns is used to define the possible spawning tiles. Each element of this array is itself a two-element array representing one possible spawning tile,
@@ -1828,7 +1988,7 @@
                 (but if your goal is to make an injected mode, you should only be working with the starting versions, not the current ones).
             </p>
         </div>
-        <div class="textbox" style="background-color: #6e007f; color: #e6a8ff; border-color: #d771ff;">
+        <div id="Part4_scripts" class="textbox" style="background-color: #6e007f; color: #e6a8ff; border-color: #d771ff;">
             <h3>Scripts</h3>
             <p>
                 Some modes have "scripts", CalcArrays that aren't associated with any other object, and are instead evaluated on their own at particular times in the game.
@@ -1895,6 +2055,12 @@
                     then one variable is included, that being an array of all the tiles that just spawned.
                 </li>
                 <li>
+                    <span class="otherCode">"TileSpawn"</span>: The script runs when a tile spawns. For these scripts, if @var_retain or @var_copy is included, "@Var 0" is the tile that spawned, and "@Var 1" is false for random spawns and true for forced spawns.
+                </li>
+                <li>
+                    <span class="otherCode">"TileSpawnFail"</span>: The script runs when a tile fails to spawn (for example, if the board is full). For these scripts, if @var_retain or @var_copy is included, "@Var 0" is the tile that failed to spawn, and "@Var 1" is false for random spawns and true for forced spawns.
+                </li>
+                <li>
                     <span class="otherCode">"ZeroMerge"</span>: The script runs whenever a length-0 merge occurs.
                     If <span class="CalcArray">"@var_retain"</span> or one of the other such variable-retaining starting strings is included at the start of the CalcArray,
                     then the variables of the merge rule are included.
@@ -1913,12 +2079,49 @@
                     <span class="otherCode">"TrueEndTurn"</span>: The script runs at the very end of the turn, after all the win condition stuff is checked (but before Victory or GameOver scripts).
                 </li>
                 <li>
+                    <span class="otherCode">"TileClick"</span>: The script runs when a tile is clicked. (of course, the ensuing CalcArray is run from that tile's position, so "@VCoord", "@HCoord", "@This", etc. work)
+                </li>
+                <li>
+                    <span class="otherCode">"StartModeAM"</span>: The script runs when the game begins, after the modifiers are loaded. Only runs when the mode begins play for the first time, not on play again / restart game. If @var_retain or @var_copy is included, then the first three variables are copies of mode_vars, modifiers, and settingModifiers. Edits to game_vars, modifier_vars, TileSpawns, or forcedSpawns from these scripts affect their start variants.
+                </li>
+                <li>
+                    <span class="otherCode">"StartModeBM"</span>: Like StartModeAM, but occurs before the modifiers are loaded instead of after (in particular, this happens before things like the loading of the grid directions, Negative Tiles and other such modifiers, and the splitting of multi-length merge rules into multiple single-length merge rules). Same notes about variables and start edits as StartModeAM.
+                </li>
+                <li>
+                    <span class="otherCode">"RestartMode"</span>: The script runs when the game begins, after all modifiers are loaded but before the starting tiles spawn. These scripts do run on play again / restart game, and they do not have the start edits and variables that the previous two do.
+                </li>
+                <li>
+                    <span class="otherCode">"EndModeSetup"</span>: The script runs right when the game begins, after the starting tile spawns. Does run on play again / restart game.
+                </li>
+                <li>
                     <span class="otherCode">"None"</span>: The script is not triggered automatically, but can still be called directly in CalcArray expressions
                     (this is true of any type that aren't the ones listed above, but "None" is the recommended way to denote this).
                 </li>
             </ul>
+            <p>
+                The 1st element can be an array of strings instead of a single string, in which case the script triggers whenever any of those strings
+                occurs.
+            </p>
         </div>
-        <div class="textbox" style="background-color: #5a5040; color: #d2c4ae; border-color: #aa9068;">
+        <div id="Part4_intervalScripts" class="textbox" style="background-color: #3b0044; color: #bf90d1; border-color: #a367bb;">
+            <h3>Interval Scripts</h3>
+            <p>
+                There's one more script type I haven't mentioned: <span class="otherCode">"Interval"</span> scripts, which are complicated enough to get their own short section.
+            </p>
+            <p>
+                There's a variable in the code named displayGridIntervalTime, which is Infinity by default but can be set to a finite number.
+                If displayGridIntervalTime is finite, then every that many milliseconds, even if a move is not currently in progress,
+                the display of the grid, stat boxes, background, etc. is updated - this is useful for modes where <span class="CalcArray">"@TimeSinceStartGame"</span> and
+                the other such real-time variables are used in some way.
+            </p>
+            <p>
+                Whenever this grid re-display occurs, Interval-type scripts are checked. Whereas other scripts only have two array entries (the CalcArray to run, and the script type),
+                Interval scripts have a third argument, which must be a number. When the Interval scripts are checked, each Interval script will only run if it has been at least
+                that many milliseconds since the last time that script ran. Furthermore, an Interval script can also have a fourth argument (another CalcArray); each time the Interval script would be run,
+                if that CalcArray results in true, then that Interval script stops running for the rest of the game.
+            </p>
+        </div>
+        <div id="Part4_statBoxes" class="textbox" style="background-color: #5a5040; color: #d2c4ae; border-color: #aa9068;">
             <h3>Stat Boxes</h3>
             <p>
                 The boxes above the grid that keep track of statistics in the game, such as your score or the Discovered Tiles, are also defined via arrays containing CalcArrays and other entries.
@@ -1926,9 +2129,9 @@
                 meaning the only stat box is the score box.
                 (wondering where it is in the mode definitions for some modes? It's at the top of loadMode(), set before the individual mode defining code, so if a mode
                 doesn't do anything else with the statBoxes then it defaults to that, rather than the default being specified in every mode it applies to).
-                But some modes have more going on with their stat boxes. Here's 2592's:
+                But some modes have more going on with their stat boxes. Here's 180's:
             </p>
-            <img src="CalcArray Documentation Images/2592 StatBoxes.png" width="90%">
+            <img src="CalcArray Documentation Images/180 StatBoxes.png" width="90%">
             <p>
                 And here's DIVE's:
             </p>
@@ -1959,7 +2162,7 @@
                     If there's a 6th entry, then the stat box will only be visible if that entry evaluates to true.
                 </li>
                 <li>
-                    If there's a 7th entry, then when the stat box is clicked, that CalcArray will be evaluated. Like with scripts, nothing is done with its return value,
+                    If there's a 7th entry, then when the stat box is clicked, that CalcArray will be evaluated. Like with scripts, nothing is done with its result value,
                     so this only makes sense if it's going to modifiy something like the game variables. Stat boxes can only be clicked between moves, not during a move.
                 </li>
                 <li>
@@ -1979,7 +2182,49 @@
                 clickable stat boxes were added mostly for the sake of toggling how Discovered Tiles is displayed.
             </p>
         </div>
-        <div class="textbox" style="background-color: #757007; color: #f0ff6a; border-color: #dbd55d;">
+        <div id="Part4_directions" class="textbox" style="background-color: #752b26; color: #ff7d7d; border-color: #ff4242;">
+            <h3>Movement Directions</h3>
+            <p>
+                You probably won't interact with these much when making a modded mode, since the directions can be fully edited using the modifiers
+                (so there's no real need to mod them), but in case you do need to mod these for some reason, here's how the movement directions are stored internally.
+                First, here's what it looks like by default:
+            </p>
+            <img src="CalcArray Documentation Images/Directions.png" width="75%">
+            <p>
+                The 0th entry of directions[x] controls the actual behavior of that direction:
+                directions[x][0][0] is the vertical movement magnitude, directions[x][0][1] is the horizontal movement magnitude,
+                directions[x][0][2] is the maximum spaces per move, and directions[x][0][3] is the "move type", which is 0 for manual moves
+                and -1 for automatic moves. directions[x][0][4] is always [1, true, true, true] for manual directions.
+            </p>
+            <p>
+                The rest of the entries are mostly about the display of the button:
+                The 1st entry of each direction is the text on the arrow button, the 2nd entry of each direction is the size of the button,
+                the 3rd entry of each direction is the font size, the 4th entry of each direction is the vertical position, the 5th entry of each direction is the
+                horizontal position, the 6th entry of each direction is the keyboard keys associated with that direction,
+                and the 7th entry of each direction is the rotation of the text on the button.
+            </p>
+            <p>
+                Now for the automatic moves. Here's what one of those looks like by default:
+            </p>
+            <img src="CalcArray Documentation Images/AutoDirections.png" width="90%">
+            <p>
+                The 0th entry of an automatic move is the same as the 0th entry of a manual direction: it's the array that controls the actual
+                behavior of the automatic move. The [x][0][4] array discussed earlier is the "manual strength" array, and here's what it does:
+                the 0th manual strength entry is 1 for manual moves, 0 for automatic moves that count as their own separate move, and
+                -1 for automatic moves that count as part of the manual move that they trigger during. The 1st manual strength entry is whether regular merges
+                can occur during the automatic move, the 2nd manual strength entry is whether length 0 merges can occur during the automatic move,
+                and the 3rd manual strength entry is whether scripts that execute at the beginning or end of a move (BeginTurn, EndMovement, EndTurn, etc.) execute on this automatic move.
+                In the Modifiers, "This automatic move counts as its own separate move." sets the 0th, 2nd, and 3rd manual strength entries to 0, true, and true,
+                while "This automatic move counts as part of the manual move that it triggers during." sets the 0th, 2nd, and 3rd manual strength entries to -1, false, and false;
+                "Tiles can(not) be merged during this move." only controls the 1st manual strength entry.
+                An automatic move can also have an [x][0][5] entry, which is the percent chance that that automatic move happens.
+            </p>
+            <p>
+                The 1st entry of an automatic move is when the automatic move occurs, which is a string, either "Between", "Before", or "After".
+                The 2nd entry of an automatic move is a CalcArray; if this entry is present, then the automatic move only triggers if that CalcArray results in true.
+            </p>
+        </div>
+        <div id="Part4_specialOperators" class="textbox" style="background-color: #757007; color: #f0ff6a; border-color: #dbd55d;">
             <h3>Other Special Operators</h3>
             <p>
                 There are some CalcArray operators I didn't mention in the previous parts because they access or modify some of the in-game objects that
@@ -1987,9 +2232,13 @@
             </p>
             <ul>
                 <li>
-                    <span class="CalcArray">evaluateColor</span> (1 argument): Argument is an array, which is evaluated as a color expression -
+                    <span class="CalcArray">"evaluateColor"</span> (1 argument): Argument is an array, which is evaluated as a color expression -
                     basically, this is the <span class="CalcArray">CalcArray</span> operator, but evaluating a color expression instead of a CalcArray.
                     Results in the string that that color expression evaluates to.
+                </li>
+                <li>
+                    <span class="CalcArray">"deevaluateColor"</span> (1 argument): Argument is a string, which is turned back into a color expression array.
+                    If the input string is not a valid result that could have come from evaluating a color expression, then garbage in, garbage out.
                 </li>
                 <li>
                     <span class="CalcArray">"@add_score"</span> (2 arguments): Adds the second argument to the score, then results in the first argument (so the running value is unchanged by this operator).
@@ -2023,6 +2272,12 @@
                     I added the tile value function in case at some point I want to add a global modifier that requires the values of tiles for some reason.
                 </li>
                 <li>
+                    <span class="CalcArray">"discoveredTilesFilter"</span> (1 argument): Each mode also has a CalcArray expression associated with it called its "discovered tiles filter",
+                    which any new tile is run through before being added to the Discovered Tiles list (to avoid "duplicates" in whatever manner that mode has).
+                    This operator's argument is an array that represents a tile (I'll explain how tiles are stored internally in Part 4), and it results in what that
+                    tile becomes after being run through this filter.
+                </li>
+                <li>
                     <span class="CalcArray">"mergeRuleApplies"</span> (2 arguments): Both arguments are numbers. The first argument is the index of the merge rule in mergeRules to check;
                     this operator results in a boolean based on whether that merge rule's 1st entry (the condition for merging) would succeed on the current tile...
                     unless the second argument, which is the "position offset", is nonzero. If the second argument is 1, it looks at the tile that would be "@Next 1" instead, if it's 2 it
@@ -2037,157 +2292,679 @@
                 <li>
                     <span class="CalcArray">"@ScriptSignal"</span> (2 arguments): Adds the second argument to the "script signals" array, which was set up to do some special things
                     involving using scripts to affect moves. The script signals array resets whenever a moment in the move process is reached that any type of scripts are run,
-                    but each time such a moment comes up, the script signals from all of the scripts of that type run that time are accumulated.
-                    Script signals only do anything if they're specific strings, and currently there's only one:
+                    but each time such a moment comes up, the script signals from all of the scripts of that type run that time are accumulated. Then, once all of those scripts of that type
+                    are run, the script signals activate their effects.
+                    Script signals with @ in front have specific effects:
                     <ul>
                         <li>
-                            <span class="CalcArray">"@ScriptSignal_MovementOccurred"</span>: If this signal is present after the scripts of type
-                            "MoveIteration", "PossibleEnd", "EndMovementMoveless", or "EndMovementDirectionMoveless" are run (those latter two are in there
-                            but not their non-moveless versions since (0, 0) moves don't have move iterations), the usual "if no tiles moved or merged this turn
-                            (unless the move is direction (0, 0), in which case if no tiles have room to spawn), the move is invalid" rule is overridden and the move counts as valid anyway.
+                            <span class="CalcArray">"@ScriptSignal_MovementOccurred"</span>: If this signal is present, all of the directions are marked as available,
+                            and if there's a move in progress, it counts as a success even if no tiles moved or merged that turn,
+                            basically telling the game "I don't care if you think this move succeeded, I'm telling you that it did succeed!".
                             This is used by the secret mode with spoiler code [SPMAG] due to its merges actually being scripts rather than typical merge rules.
                         </li>
+                        <li>
+                            <span class="CalcArray">"@ScriptSignal_DisplayGrid"</span>: If this signal is present, the grid, background,
+                            statistic boxes, etc. are redisplayed, like they would be at the end of a turn. Useful for Interval scripts in modes where
+                            the display grid interval doesn't redisplay tiles by default, as sometimes such a script does impact the grid,
+                            and the grid redisplay from this signal bypasses any such lag reduction measures and redisplays everything.
+                        </li>
+                        <li>
+                            <span class="CalcArray">"@ScriptSignal_DiscoveredTileCheck"</span>: If this signal is present, the Discovered Tiles array is updated,
+                            like it would be at the end of a turn.
+                        </li>
+                        <li>
+                            <span class="CalcArray">"@ScriptSignal_WinCheck"</span>: If this signal is present, the win and loss conditions and requirements are checked -
+                            this allows a script to trigger a victory or game over without having to wait for the next move if you're not currently moving.
+                            If the winRequirement or loseRequirement does depend on the discovered winning or losing tiles, you should also include
+                            "@ScriptSignal_DiscoveredTileCheck", as the win check can transfer discovered tiles into discovered winning/losing but won't check for
+                            new discovered tiles itself.
+                        </li>
                     </ul>
+                    A script signal that does not have @ in front can instead be used as a custom script string type, so scripts with that string
+                    as their 1st element (or as an element of their 1st element) will be triggered after all the current scripts are done.
+                    Be careful not to cause infinite loops with this!
                 </li>
             </ul>
         </div>
     </div>
     <div class="textbox" style="background-color: #2c0046; color: #d09aff; border-color: #842bc3;">
-        <h2>Part 5: Non-CalcArray Details For Injected Modes</h2>
-        <div class="textbox" style="background-color: #2e7d88; color: #abe9ff; border-color: #26e6ff;">
-            <h3>Notable JavaScript Variables</h3>
+        <h2>Part 5: Infused and Injected Modes</h2>
+        <div id="Part5_moddingMethods" class="textbox" style="background-color: #813894; color: #ff9dff; border-color: #b536ff;">
+            <h3>Ways to Create a Mode</h3>
             <p>
                 We've covered basically everything relevant to CalcArrays at this point, but knowing how to use CalcArrays doesn't mean much if you don't know
-                how to put it all together into an injected mode.
+                how to put it all together into your own modes.
             </p>
             <p>
-                I am aware of two main ways to make an injected mode: by editing the Power Compendium's code directly to make the mode and then exporting it as a save code,
-                or editing an existing save code into a new mode. Let's start with the first one.
-                If you want to make a mode within the 2048 Power Compendium's code, here are some of the JavaScript variables you'll want to consider (with their types in parentheses):
+                There are two types of modded mode that you can make for the Compendium. The old way is the "injected modes" that have been mentioned previously;
+                these are made either by by editing the Power Compendium's code directly to make the mode and then exporting it as a save code,
+                or editing an existing save code into a new mode. Injected modes are saved as @2048PowCompMode save codes, which take you directly into the game when imported.
+                Since they're shared by using the save code functionality designed for saving in-progress games, injected modes won't respond to the global Modifiers,
+                nor can they have mode modifiers of their own, as all of those details are already in the save code.
             </p>
-            <ul>
+            <p>
+                v3.0 introduced a second, more official way to create modded modes, known as Infused Modes. Type "Infuse" (without the quotes) into any save code entering location
+                in the Compendium and import that, and it will take you to an interface where you can create these Infused Modes, as well as put them onto additional pages of the title screen grid.
+                The Infused Mode Guide in that area explains the grid part, so I'll focus on the creation process here.
+            </p>
+        </div>
+        <div id="Part5_InfusedModes" class="textbox" style="background-color: #9c6b00; color: #ffd885; border-color: #ffd885;">
+            <h3>Infused Mode values</h3>
+            <p>
+                Creating an Infused Mode is done by editing the 40+ variables on the "Create a New Infused Mode" screen.
+                The strings you enter here will be imported into the appropriate variables when the mode is played. These will run through the same JSON interpreter that
+                save codes do - so you need to use the <span class="otherCode">"@BigInt n"</span>, <span class="otherCode">"@BigRational n d"</span>, and
+                <span class="otherCode">"@GaussianBigInt r i"</span> syntax for values of those types, as well as
+                <span class="otherCode">"@Infinity"</span>, <span class="otherCode">"@-Infinity"</span>, and <span class="otherCode">"@NaN"</span> for those respective
+                floating point values, and <span class="otherCode">"@undefined"</span> for undefined (since those last four values would all turn into null in normal JSON).
+                Reading this section will be useful for injected modes too, as many of these same values are used in those.
+            </p>
+            <p>
+                Here's what each of the values here does, and the type it needs to be:
+            </p>
+            <ul class="spacedList">
                 <li>
-                    <span class="otherCode">tileNumAmount</span> (number): The amount of elements the tiles have in their arrays.
-                    Yes, this must be constant - every tile in a given mode must have the same amount of elements.
+                    <b>TileNumAmount</b> (number): The amount of elements the tiles have in their arrays.
+                    This must be a constant number - every tile in a given mode must have the same amount of elements.
                     If you want a tile to have a variable amount of elements, make one of its elements an array itself and put the extras there (3069 does this).
                 </li>
                 <li>
-                    <span class="otherCode">tileTypes</span> (array of arrays): The list of defined types of tile displays. See the Tile Display Rules section for details.
+                    <b>TileTypes</b> (array of tile display rules): The array of tile display rules that controls the displays of tiles. See the Tile Display Rules section for details.
                 </li>
                 <li>
-                    <span class="otherCode">mergeRules</span> (array of arrays): The list of possible merges. See the Merge Rules section for details.
+                    <b>MergeRules</b> (array of merge rules): The array of merge rules that control what merges can occur. See the Merge Rules section for details.
                 </li>
                 <li>
-                    <span class="otherCode">startTileSpawns</span> (array of arrays): The list of (random) spawning tiles. See the Tile Spawns section for details.
+                    <b>startTileSpawns</b> (array of tile spawn arrays): The array of (random) spawning tiles. See the Tile Spawns section for details.
                 </li>
                 <li>
-                    <span class="otherCode">winConditions</span> (array): This array defines the tiles that will be added to the Discovered Winning Tiles when discovered.
+                    <b>start_forcedSpawns</b> (array of forced spawn arrays): The array of forced tile spawns. See the Tile Spawns section for details.
+                </li>
+                <li>
+                    <b>statBoxes</b> (array of stat box arrays): The array of statistic boxes, like the score box. See the Stat Boxes section for details.
+                </li>
+                <li>
+                    <b>start_game_vars</b> (array): The array of game variables at the start of the game. See the Variables section for details.
+                    (P. S. The reason TileSpawns, game_vars, and forcedSpawns have "start" versions is because of the CalcArray modifiers that can modify them,
+                    meaning they need to be reset to their starting versions when the game is restarted. Infused modes have you edit the starting versions,
+                    not the in-game versions, and you should do the same when making an injected mode.)
+                </li>
+                <li>
+                    <b>scripts</b> (array of scripts): The array of scripts. See the Scripts section for details.
+                </li>
+                <li>
+                    <b>tileDisplayKnownLevel</b> (0, 1, 2, or 3): v2.1.13 added a system where the game keeps track of what tiles that have already been seen look like,
+                    to avoid having to run CalcArrays every time you want to display a known tile, as CalcArrays are much laggier than just running JavaScript where possible.
+                    The strength of this system is controlled by tileDisplayKnownLevel:
+                    0 means that this memory system is not used at all, 1 means that this memory system is only used on a per-turn basis
+                    (i.e. its learned displays are forgotten at the end of each turn),
+                    2 means that this memory system retains displays of tiles currently on the board but gets rid of the ones that aren't on the board anymore,
+                    and 3 means that this memory system retains all tile displays from throughout the game.
+                    Note that this is a maximum: since there's a Setting that limits this, and Infused Modes respond to Modifiers (which includes Settings), the actual tileDisplayKnownLevel
+                    can be put to below what the infused mode says it is by that Setting, but it can't go above this value.
+                    There usually isn't much reason to not make this 3, but in theory you could make a mode where the displays of tiles are
+                    dependent on something other than their own elements, so if you do you'll need to lower this.
+                </li>
+                <li>
+                    <b>mergeResultKnownLevel</b> (0, 1, 2, or 3): Similar to tileDisplayKnownLevel, but for storing the results of merge rules (including storing what collisions failed to merge).
+                    Level 2 retains merges where all of the tiles are still on the board.
+                    Modes such as 2592 and 2295 have to lower this since their merges change rules over time. This system does work with Partial Absorb merges, but it does not
+                    work with Merge Overflow merges (merges with more outputs than inputs), so you'll need to set this to 0 if your mode has Merge Overflow merges.
+                </li>
+                <li>
+                    <b>knownMergeMaxLength</b> (number): The maximum merge length of the mode. You don't need to set this if mergeResultKnownLevel is 0,
+                    but if you do intend to use known merge results, they need to know how long the merges can get (but you can set knownMergeMaxLength to Infinity if you need to).
+                    If you're making an injected mode, <i>remember to set this</i> - it's easy to forget this one when making an injected mode!
+                    (Infused modes set it to Infinity by default, so you'll just be losing some optimizations if you forget it there, but with injected modes
+                    forgetting this is a common cause of bugs)
+                </li>
+                <li>
+                    <b>knownMergeLookbackDistance</b> (number): How far back into the negative @NextNE tiles the known merge results will examine.
+                    If this is above 1, it also checks @Next tiles <i>in front</i> of the merging tiles (one less of those than it does of the ones behind).
+                </li>
+                <li>
+                    <b>winConditions</b> (array): This array defines the tiles that will be added to the Discovered Winning Tiles when discovered.
                     Each element of this array is either a tile array (so only that tile counts as a winning tile) or a CalcArray expression (any tile that makes that expression
                     evaluate to the boolean true will be considered a winning tile), similar to how the tile for Tile Display Rules can be either of those.
                 </li>
                 <li>
-                    <span class="otherCode">winRequirement</span> (number or false): The amount of discovered winning tiles required to win the mode.
-                    Can also be set to the boolean false, in which case the mode cannot be won.
+                    <b>winRequirement</b> (number, false, or CalcArray): The amount of discovered winning tiles required to win the mode.
+                    Can also be set to the boolean false, in which case the mode cannot be won. Can also be set to a CalcArray, in which case you win if that CalcArray
+                    results in true (in this case winConditions is ignored... unless the win requirement includes "@DiscWinning", of course)
                 </li>
                 <li>
-                    <span class="otherCode">loseConditions</span>, <span class="otherCode">loseRequirement</span>: Same as the above, but for premature loss instead of victory.
+                    <b>loseConditions</b> (array): Same as winConditions, but for premature loss instead of victory.
                 </li>
                 <li>
-                    <span class="otherCode">postgameAllowed</span> (boolean): True by default. If this is false, then you cannot continue the game after you win.
+                    <b>loseRequirement</b> (number, false, or CalcArray): Same as winRequirement, but for premature loss instead of victory.
                 </li>
                 <li>
-                    <span class="otherCode">winPriority</span> (boolean): True by default. If this is true, then if you get into a situation where you win and lose on the same
+                    <b>winPriority</b> (boolean): True by default. If this is true, then if you get into a situation where you win and lose on the same
                     turn, you win. If this is false, then you lose in that situation.
                 </li>
                 <li>
-                    <span class="otherCode">mergeResultKnownLevel</span> (0, 1, 2, or 3): v2.1.13 added a system where the game keeps track of what merges have already given known results,
-                    to avoid having to run CalcArrays every time when dealing with the collisions of common tiles, as CalcArrays are much laggier than just running JavaScript where possible.
-                    The strength of this system is controlled by mergeResultKnownLevel:
-                    0 means that knownMergeResults is not used at all, 1 means that knownMergeResults is only used on a per-turn basis (i.e. its learned rules are forgotten at the end of each turn),
-                    2 means that knownMergeResults retains merges whose inputs are all tiles currently on the board but gets rid of the ones that aren't on the board anymore,
-                    and 3 means that knownMergeResults retains all merge results from throughout the game.
-                    This is 2 by default, but if the merge rules change over the course of the game (like in 2592 and 2295), 
-                    this must be set to 0 or 1 (if the merge rules can change within a single turn, it must be 0). Length-0 merges are not included in this system.
-                    So far as I am aware, the known merge results system works correctly with Partial Absorb merges, but does not work correctly with Merge Overflow merges
-                    (those with more outputs than inputs), so if you're making a mode with Merge Overflow merges, set mergeResultKnownLevel to 0.
+                    <b>postgameAllowed</b> (boolean): True by default. If this is false, then you cannot continue the game after you win.
                 </li>
                 <li>
-                    <span class="otherCode">knownMergeMaxLength</span> (number): The maximum merge length of the mode. You don't need to set this if mergeResultKnownLevel is 0,
-                    but if you do intend to use known merge results, they need to know how long the merges can get (but you can set knownMergeMaxLength to Infinity if you need to).
-                    <i>Remember to set this</i> - it's easy to forget this one when making an injected mode!
+                    <b>gameplayBackground</b> (color expression): The background color or gradient during the game. Before v3.0 this and other backgrounds would only be
+                    evaluated at the start of the game (and were stored directly in CSS instead of as JavaScript variables), but now the backgrounds can be updated
+                    during the game.
                 </li>
                 <li>
-                    <span class="otherCode">knownMergeLookbackDistance</span> (number): How far back into the negative @NextNE tiles the known merge results will examine.
-                    If this is above 1, it also checks @Next tiles <i>in front</i> of the merging tiles (one less of those than it does of the ones behind).
+                    <b>gridBackground</b> (color expression): The color or gradient of the back of the grid (the spaces between the tiles).
                 </li>
                 <li>
-                    <span class="otherCode">tileDisplayKnownLevel</span> (0, 1, 2, or 3): Works similarly to mergeResultKnownLevel, but for storing the displays of tiles instead of the
-                    check results and outputs of merge rules. This one is 3 by default, and currently there's no mode where it has to be anything less,
-                    but in theory you could make a mode where the displays of tiles are dependent on something other than their own elements, so if you do you'll need to lower this.
+                    <b>tileBackground</b> (color expression): The color or gradient of the empty tiles. If the first entry is "@DisplayTile", then the array
+                    with that entry removed is treated as a tile display rule to use on the empty tiles.
                 </li>
                 <li>
-                    <span class="otherCode">statBoxes</span> (array of arrays): The list of statistic boxes, like the score box. See the Stat Boxes section for details.
+                    <b>textBackground</b> (color expression that results in a single color): The color of the rules text and such. Unlike the other backgrounds, this
+                    cannot be a gradient.
                 </li>
                 <li>
-                    <span class="otherCode">start_game_vars</span> (array): The game variables at the start of the game.
+                    <b>gameplayRulesText</b>: A list of HTML elements that comprise the rules text during the game. Each entry of this array is itself a two-entry array,
+                    where the first entry must be "p", "h1", "h2", "h3", "h4", "h5", or "h6", and the second entry is a text expression.
+                    For an infused mode, you may instead set this to the boolean true to have it default to being the same as gmRulesText;
+                    you cannot do this for an injected mode.
                 </li>
                 <li>
-                    <span class="otherCode">mode_vars</span> (array): A list of variables that are kept track of during the pre-start screen, used for storing
-                    what the settings of mode modifiers are. Injected modes can't have mode modifiers since they just put you right into the game,
-                    so you'll only need this if you're making a mod of the Compendium.
+                    <b>Default grid size</b> (number): Decides what the default grid size is for this mode. For example, if this is 5, the default grid size for a square
+                    grid for this mode is 5x5.
                 </li>
                 <li>
-                    <span class="otherCode">scripts</span> (array of pairs): The list of scripts. See the Scripts section for details.
-                </li>
-                <li>
-                    There's a few properties to keep track of that are not JavaScript variables, but rather CSS or HTML. Here's how the first mode, 2048, sets these:
-                    <img src="CalcArray Documentation Images/2048 Non JS Properties.png" width="90%">.
-                    <ul>
-                        <li>
-                            For the CSS properties, "background-image" sets the background image of the pre-start screen of the mode (meaning if you're just making an injected
-                            mode you don't need this), "--background-color" sets the background color or gradient during the game, "--grid-color" is the color of the space between the tiles,
-                            "--tile-color" is the color of empty spaces, and "--text-color" is the color of the rules text and such.
-                        </li>
-                        <li>
-                            For the displayRules function, the first argument is the ID of an HTML element. The function overwrites the innerHTML of that element,
-                            with each successive argument being a pair array representing a child element to add to the one being overwritten, where
-                            the first array element is what kind of HTML element to add and the second array element is the text that HTML element should contain.
-                            When making a mode, only use this on two HTML IDs: "rules_text" for the rules displayed during a game, and "gm_rules_text"
-                            for the rules displayed on the pre-start screen.
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <span class="otherCode">start_forcedSpawns</span> (array of arrays): The list of forced spawning tiles at the start of the game. See the Tile Spawns section for details.
-                    (P. S. The reason TileSpawns, game_vars, and forcedSpawns have "start" versions is because of the CalcArray modifiers that can modify them,
-                    meaning they need to be reset to their starting versions when the game is restarted.
-                    When making an injected mode, make sure to edit the starting versions, not the in-game versions.)
-                </li>
-                <li>
-                    <span class="otherCode">movementParameters</span> (array of three CalcArray expressions): This is
+                    <b>movementParameters</b> (array of three CalcArray expressions): This is
                     <span class="CalcArray">["@VDir", "@HDir", "@SlideAmount"]</span> by default. When a tile is moving, it's actually <i>these</i>, not the
                     directions and maximum slide amount themselves, it looks at to determine how it moves, which means if you change these expressions,
                     you can make it so different tiles move in different ways when you move in the same direction.
                 </li>
                 <li>
-                    <span class="otherCode">tileValueFunction</span> (CalcArray expression): An expression that should return the "value" of a tile. You don't need to bother with this
-                    unless you intend on using the <span class="CalcArray">tileValue</span> operator, or you're making a full-fledged mod of the 2048 Power Compendium rather than just an injected mode.
+                    <b>spawnConditions</b> (CalcArray): If this CalcArray results in false when run at the time tiles are supposed to spawn, then
+                    tile spawns will not occur that turn.
                 </li>
                 <li>
-                    <span class="otherCode">discoveredTilesFilter</span> (CalcArray expression): A CalcArray (missing its first entry) to be run on each potential new discovered tile
+                    <b>tileValueFunction</b> (CalcArray): An expression that should result in the "value" of a tile. You technically don't need to bother with this
+                    unless you intend on using the <span class="CalcArray">tileValue</span> operator, as right now nothing in the Compendium relies on this -
+                    but someday there might be a modifier that uses this...
+                </li>
+                <li>
+                    <b>discoveredTilesFilter</b> (CalcArray): A CalcArray (missing its first entry) to be run on each potential new discovered tile
                     before adding it to the discovered tiles list (if it's still undiscovered after doing so). This is used to make it so Discovered Tiles doesn't store duplicates of tiles that are,
                     depending on the mode and modifiers in question, considered "the same tile" despite their tile arrays being technically different.
                 </li>
+                <li>
+                    <b>infusedModeModifiers</b>: The array of mode modifiers for this infused mode. See the Infused Mode Modifiers section (the section <i>after</i> this one) for details.
+                </li>
+                <li>
+                    <b>gmBackground</b> (color expression): The color or gradient of the pre-game screen (the screen that appears when you first enter the mode, where the Start Game
+                    button and the mode modifiers are).
+                </li>
+                <li>
+                    <b>gmRulesText</b>: A list of HTML elements that comprise the rules text on the pre-game screen. Uses the same format as gameplayRulesText.
+                </li>
+                <li>
+                    <b>Big tile text</b> (string): The text written on the icon tile for this mode.
+                </li>
+                <li>
+                    <b>Big tile font size</b> (number): The font size of the text on the icon tile. For reference for scale, 4.8 is the font size used for four-digit mode titles like 2048.
+                </li>
+                <li>
+                    <b>Big tile background</b> (color expression): The color or gradient of the icon tile.
+                </li>
+                <li>
+                    The options in the "Respected/Ignored" box are for turning off the usual effects of particular modifiers that are likely to not mesh well with certain modes.
+                    The modifiers included here, especially Negative Tiles, are generally ones that I felt some modes are likely to want to support but not just using the default method of implementing it,
+                    so they'd be better off Ignoring it and then implementing their own behavior when it's on, since if it's not Ignored
+                    it will use the default code for adding it in. (I'll explain how to detect modifiers as such shortly)
+                </li>
+                <li>
+                    <b>gmDisplayScript</b> (CalcArray): This CalcArray is run every time any setting on the pre-game screen is changed. Useful for limiting or deciding
+                    the values of certain mode modifiers based on other mode modifiers.
+                </li>
+                <li>
+                    <b>displayGridIntervalTime</b> (number): The grid, statBoxes, etc. are re-displayed once every this many milliseconds even if you're not moving,
+                    so that values related to real time can be displayed over time rather than having to wait for the next move to update visually.
+                    Interval scripts are only checked on each run of this display grid interval.
+                </li>
+                <li>
+                    <b>modifiersOverride</b>: An array of forced values for particular Modifiers.
+                    Each entry of this array is itself a three-entry array, where the first entry is the (number) index of the modifier to be edited
+                    (more about modifier indices in the Modifiers section later), the second entry is the value to set the modifier to,
+                    and the third entry is a boolean (if false then the modifier is changed immediately when the mode is loaded, if true then the modifier is only changed as the game begins).
+                    modifiersOverride does not work on modifiers[5] through modifiers[11], the modifiers related to the grid size/grid shape/custom grid.
+                </li>
+                <li>
+                    <b>settingModifiersOverride</b>: Same as modifiersOverride, but for the Settings instead. Doesn't do anything to the Settings related to saving things on reload.
+                </li>
+                <li>
+                    <b>spawnTileBlocked</b> (CalcArray):
+                    If this CalcArray results in true at a particular spot on the grid when a tile is trying to spawn, that spot will not be a valid spawning location for that tile.
+                    If no empty spot is valid, then the tile fails to spawn. (Note that this does not override the "New tiles can only spawn on the edge that you just moved away from." Modifier;
+                    if that Modifier is on, only spots on that edge will make it far enough to even be tested by spawnTileBlocked).
+                </li>
+                <li>
+                    <b>directionBlocked</b> (CalcArray):
+                    If this CalcArray results in true on a particular direction, you cannot move in that direction this turn.
+                    "@VDir", "@HDir", etc. in this CalcArray use the appropriate values for that direction.
+                </li>
+                <li>
+                    <b>gameplayComponentOpacities</b> (array of up to nine entries, each of which is a number or a CalcArray that results in a number):
+                    Each of these values alters the opacity of some element of the gameplay. 1 is fully opaque, 0 is invisible but still there and still clickable,
+                    values between 0 and 1 are somewhat transparent, anything below 0 is hidden entirely and cannot be clicked.
+                    Entries after the last one are assumed to be 1.
+                    <br>
+                    The order of the entries is as follows:
+                    <ul>
+                        <li>
+                            Opacity of the directions (if this is below 0 then keyboard moves won't work either, you can't move if the direction box is hidden entirely this way).
+                        </li>
+                        <li>
+                            Opacity of the grid (the grid still functions internally even if it's hidden)
+                        </li>
+                        <li>
+                            Opacity of the rules text
+                        </li>
+                        <li>
+                            Opacity of the stat boxes
+                        </li>
+                        <li>
+                            If the array gets this far, then the previous entry is only the opacity of stat boxes on top, this entry is the opacity of stat boxes on bottom
+                        </li>
+                        <li>
+                            Opacity of the "Next Tiles" display (this defaults to the grid opacity if the array doesn't get this far)
+                        </li>
+                        <li>
+                            Opacity of the "Get a save code" button
+                        </li>
+                        <li>
+                            Opacity of the "Restart game" button
+                        </li>
+                        <li>
+                            Opacity of the "Return to menu" button
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <b>displayLagReductions</b> (array of up to eight entries, each of which is a boolean or a CalcArray that results in a boolean):
+                    Each of these toggles, if that CalcArray results in true, causes some aspect of the game to not be redisplayed when the redisplays are
+                    supposed to happen. This is intended for use in reducing lag by avoiding redisplaying things when you know their displays will stay the same.
+                    Entries after the last one are assumed to always be false.
+                    <br>
+                    The order of the entries is as follows (each of these describes what happens if that entry results in true):
+                    <ul>
+                        <li>
+                            The grid tiles do not update their display
+                        </li>
+                        <li>
+                            The background does not empty its display
+                        </li>
+                        <li>
+                            The back of the grid and the color of empty tiles do not update their display
+                        </li>
+                        <li>
+                            The rules text and the text color do not update their display
+                        </li>
+                        <li>
+                            The stat boxes do not update their display
+                        </li>
+                        <li>
+                            The visible next tiles do not update their display
+                        </li>
+                        <li>
+                            The direction arrows do not update their display
+                        </li>
+                        <li>
+                            All of the empty tiles are assumed to be the same color
+                        </li>
+                    </ul>
+                    If any of these CalcArrays retain variables, then "@Var 0" becomes the "type" of the grid display, which can be one of the following:
+                    "MoveStep" (for when the grid is displayed after each step of the move), "MoveEnd" (at the end of a move),
+                    "Spawning" (for any grid display that occurs while tiles are spawning), "StatBoxClick" and "TileClick" (from clicking those
+                    objects), "Interval" (for grid displays from displayGridIntervalTime), "Resize" (for grid displays from resizing the game window),
+                    and "Complete" (start of game, win screen, game over screen, returning to the game from the save code screen, "@DisplayGrid" script signals,
+                    and so on. Grid displays of this type ignore all of these lag reductions except the same-color-empty-tiles one, they will always redisplay everything).
+                </li>
             </ul>
             <p>
-                There are plenty more variables the Compendium works with, but ones beyond these are generally meant to be used within the "engine", not by the person making the mode.
+                Most of these can, instead of their normal type, be a CalcArray with "@InfusedCalcArray" as its first entry, in which case, when the game begins,
+                that CalcArray (with the "@InfusedCalcArray" removed) is evaluated, and its result is used as the value for that variable.
+                If "@var_retain" or something else like that is active in that CalcArray, then there are three variables brought in: "@Var 0" is the array of
+                mode modifiers, "@Var 1" is the array of Modifiers, and "@Var 2" is an array of further arguments: ["@Var 2", "arr_elem", 0] is the array of
+                Settings, ["@Var 2", "arr_elem", 1] is the array of manual directions, and ["@Var 2", "arr_elem", 2] is the array of automatic moves.
+                <br>
+                Default grid size and the two modifiersOverrides do not have "@InfusedCalcArray" functionality, but modifiersOverride and settingModifiersOverride
+                entries where the third entry is true (i.e. they trigger as the game begins) <i>can</i> have "@InfusedCalcArray" used in their second entries (the CalcArrays
+                that determine the forced value).
+                gmBackground, the three Big Tile variables, and gmDisplayScript can retain those three variables even without "@InfusedCalcArray" in front
+                (and they won't work if "@InfusedCalcArray" is in front). gmRulesText does support "@InfusedCalcArray"; in this case the CalcArray is re-evaluated
+                whenever something is changed on the pre-game screen.
+                <br>
+                When it comes to loading in values and evaluating @InfusedCalcArray's, start_game_vars is evaluated first, then tileValueFunction, then discoveredTilesFilter,
+                then the rest of the variables in order.
+                (Those three come first so that later InfusedCalcArrays can use the game_vars and use the operators associated with the latter two).
+                Before the game starts, game_vars and modifier_vars are considered empty.
             </p>
         </div>
-        <div class="textbox" style="background-color: #17007d; color: #a083ff; border-color: #4000ae;">
+        <div id="Part5_infusedModeModifiers" class="textbox" style="background-color: #538600; color: #a6ff83; border-color: #5ae200;">
+            <h3>Infused Mode Modifiers</h3>
+            <p>
+                One of the biggest things setting infused modes apart from injected modes is that infused modes can have mode modifiers.
+                These are determined by the entries in the infusedModeModifiers array. Each entry is an array, whose first entry is the type of modifier that
+                mode modifier is, and the rest are values and CalcArrays for that type of mode modifier. Any of these entries that
+                are CalcArray scripts can var_retain the following variables: "@Var 0" through "@Var 2" are the same things they are
+                in "@InfusedCalcArray" expressions, and "@Var 3" is the value of that mode modifier specifically.
+            </p>
+            <p>
+                The types of infused mode modifiers:
+            </p>
+            <ul>
+                <li>
+                    <b>"Options"</b>: A mode modifier with a finite number of options, each of which has an associated text string and text color, switched between
+                    via a "Switch This Modifier" button, like the mode modifier to switch between 1 spawns and 2 spawns in 2048.
+                    Internally, the value of this mode variable is a number: 0 for the first option, 1 for the second option, 2 for the third option, and so on.
+                    <ul>
+                        <li>
+                            The second entry is the array of options, each of which is itself a two-entry array where the first entry is
+                            the text associated with that option and the second entry is the color of that text. 
+                        </li>
+                        <li>
+                            The third entry is a CalcArray that's run whenever the modifier is changed.
+                            If @Var 0 is edited, those changes will be reflected in the mode modifiers.
+                        </li>
+                        <li>
+                            The fourth entry is a CalcArray that results in whether or not this mode modifier is visible.
+                        </li>
+                        <li>
+                            The fifth entry is a boolean (must be a plain boolean, not a CalcArray) that determines whether changing this modifier reloads the default grid size.
+                        </li>
+                    </ul>
+                </li>
+                <br>
+                <li>
+                    <b>"CounterSimple"</b>: A mode modifier whose value is numeric, with minus and plus buttons to increment its value, like the Minimum Merge Length
+                    modifier in several modes.
+                    Internally, the value of this mode variable may be a number, BigInt, or BigRational (but it has to stay one of those three consistently).
+                    <ul>
+                        <li>
+                            The second entry is the title text of the mode variable, the text above the counter.
+                        </li>
+                        <li>
+                            The third entry is the text color of the title and counter.
+                        </li>
+                        <li>
+                            The fourth entry is the starting value of the mode modifier.
+                        </li>
+                        <li>
+                            The fifth entry is what number the plus button adds to the mode modifier and the minus button subtracts from the mode modifier.
+                        </li>
+                        <li>
+                            The sixth entry is the counter's minimum value. The minus button is hidden if the counter is not greater than this.
+                        </li>
+                        <li>
+                            The seventh entry is the counter's maximum value. The plus button is hidden if the counter is not less than this.
+                        </li>
+                        <li>
+                            The eighth entry is a CalcArray that's run whenever the modifier is changed.
+                            If @Var 0 is edited, those changes will be reflected in the mode modifiers.
+                        </li>
+                        <li>
+                            The ninth entry is a CalcArray that results in whether or not this mode modifier is visible.
+                        </li>
+                        <li>
+                            The tenth entry is a boolean (must be a plain boolean, not a CalcArray) that determines whether changing this modifier reloads the default grid size.
+                        </li>
+                    </ul>
+                </li>
+                <br>
+                <li>
+                    <b>"CounterAdvanced"</b>: Similar to CounterSimple, but instead of incrementing by a constant amount from clicking minus or plus,
+                    each of the minus and plus buttons runs a CalcArray when clicked. You'll need to use this instead of CounterSimple if, for example, you want
+                    a counter where Infinity is treated as below 2, like the Maximum Merge Length modifier in several modes.
+                    <ul>
+                        <li>
+                            The second entry is the title text of the mode variable, the text above the counter.
+                        </li>
+                        <li>
+                            The third entry is the text color of the title and counter.
+                        </li>
+                        <li>
+                            The fourth entry is the starting value of the mode modifier.
+                        </li>
+                        <li>
+                            The fifth entry is a CalcArray that's run whenever the minus button is clicked.
+                            If @Var 0 is edited, those changes will be reflected in the mode modifiers (you'll need to do this to have the minus button actually do anything!).
+                        </li>
+                        <li>
+                            The sixth entry is a CalcArray that's run whenever the plus button is clicked.
+                            If @Var 0 is edited, those changes will be reflected in the mode modifiers (you'll need to do this to have the plus button actually do anything!).
+                        </li>
+                        <li>
+                            The seventh entry is a CalcArray that results in whether or not the minus button is visible.
+                        </li>
+                        <li>
+                            The eighth entry is a CalcArray that results in whether or not the plus button is visible.
+                        </li>
+                        <li>
+                            The ninth entry is a CalcArray that results in whether or not this mode modifier is visible.
+                        </li>
+                        <li>
+                            The tenth entry is a boolean (must be a plain boolean, not a CalcArray) that determines whether changing this modifier reloads the default grid size.
+                        </li>
+                    </ul>
+                </li>
+                <br>
+                <li>
+                    <b>"Input"</b>: A mode modifier with a textbox to input a value, like the Tile Lifespan Multiplier modifier in Isotopic 256.
+                    Internally, the value of this mode modifier is a string (so if you want to treat it as a number, you'll need to type-convert it in the CalcArrays that use it!).
+                    <ul>
+                        <li>
+                            The second entry is the title text of the mode variable, the text above the counter.
+                        </li>
+                        <li>
+                            The third entry is the text color of the title and counter.
+                        </li>
+                        <li>
+                            The fourth entry is the starting value of the mode modifier.
+                        </li>
+                        <li>
+                            The fifth entry is a CalcArray that results in whether or not the new string just entered is a valid value for the modifier.
+                            In this case, "@Var 0" still includes the old value, but "@Var 3" is the new value.
+                        </li>
+                        <li>
+                            The sixth entry is the value that the modifier falls back to when a non-valid string is entered.
+                            If this is a CalcArray used to calculate the fallback string, then "@Var 0" still includes the old value, and "@Var 3" is the string that was entered and not valid.
+                            You may have this not result in a string to leave the modifier at its previous valid value.
+                        </li>
+                        <li>
+                            The seventh entry is a CalcArray that's run whenever the modifier is changed.
+                            If @Var 0 is edited, those changes will be reflected in the mode modifiers.
+                        </li>
+                        <li>
+                            The eighth entry is a CalcArray that results in whether or not this mode modifier is visible.
+                        </li>
+                        <li>
+                            The ninth entry is a boolean (must be a plain boolean, not a CalcArray) that determines whether changing this modifier reloads the default grid size.
+                        </li>
+                    </ul>
+                </li>
+                <br>
+                <li>
+                    <b>"List"</b>: A mode modifier with a series of textboxes to input values, like the "Allowed Merge Lengths" modifiers in particular settings of XXXX and 180.
+                    Internally, the value of this mode modifier is an array of strings.
+                    <ul>
+                        <li>
+                            The second entry is the title text of the mode variable, the text above the counter.
+                        </li>
+                        <li>
+                            The third entry is the text color of the title and counter.
+                        </li>
+                        <li>
+                            The fourth entry is the starting value of the mode modifier (Remember that this starting value is an array of strings, not a single string!).
+                        </li>
+                        <li>
+                            The fifth entry is a CalcArray that results in whether or not the new string just entered results in a valid list for the modifier.
+                            In this case, if retained, "@Var 0" still includes the old value, "@Var 3" is the new value of the entire list (not just the string entered),
+                            and "@Var 4" is the index of the list element that was entered into.
+                            If this results in false, then the modifier tries to cut off every entry from that index onwards (so if you entered into index 4 and
+                            it wasn't valid, it tries to chop off the list to just be indices 0 through 3) and runs this validity script on it again. If that results in false
+                            too, then the list doesn't change.
+                        </li>
+                        <li>
+                            The sixth entry is a CalcArray that's run whenever the modifier is changed. If retained, "@Var 4" is the index of the list element that was entered into.
+                            If @Var 0 is edited, those changes will be reflected in the mode modifiers.
+                        </li>
+                        <li>
+                            The seventh entry is a CalcArray that results in whether or not this mode modifier is visible.
+                        </li>
+                        <li>
+                            The eighth entry is a boolean (must be a plain boolean, not a CalcArray) that determines whether changing this modifier reloads the default grid size.
+                        </li>
+                    </ul>
+                </li>
+                <br>
+                <li>
+                    "Auxillary" or "None": This mode variable doesn't have an associated modifier that can be edited directly, but it still occupies a slot in the mode variables
+                    list that "@Var 0" in these other places accesses. (Any type other than the five above results in this, but these are the recommended ways of denoting it).
+                    <ul>
+                        <li>
+                            The second entry is the starting value of the mode variable, which may be any type.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div id="Part5_modifiers" class="textbox" style="background-color: #972b00; color: #ffad87; border-color: #ff7f35;">
+            <h3>Modifiers</h3>
+            <p>
+                To use modifiersOverride and settingsModifiersOverride, you'll need to know how the Modifiers and Settings are stored internally,
+                i.e. what modifier each index corresponds to.
+            </p>
+            <p>
+                The Modifier indices are:
+            </p>
+            <ul>
+                <li>
+                    #0 is Maximum Spaces Moved per Move, which is a number (though you probably shouldn't use this one, since it has no effect if the Custom Grid is on).
+                </li>
+                <li>
+                    #1 is Tiles Spawned After Each Move, and #2 is Tiles Spawned at the Start. These are both numbers.
+                </li>
+                <li>
+                    #3 is the toggle for "A tile that was just merged can itself be part of another merge on the same move.", a boolean (true for can, false for cannot).
+                </li>
+                <li>
+                    #4 is the toggle for the Page 2 modifier on where new tiles can spawn, which is a string, either "All" or "Edge".
+                </li>
+                <li>
+                    #5 through #11 relate to the Page 3 modifiers on grid and directions. <i>modifiersOverride does not work on these!</i>
+                    Infused modes in general don't currently support letting the mode designer control the starting grid,
+                    so if you can't support letting those Modifiers do their thing freely to your mode, you should be making an injected mode, not an infused mode.
+                </li>
+                <li>
+                    #12 is the toggle for Garbage Tiles, which is a number: -1 for disabled, 0 for Garbage 0s, a positive integer for garbage Temporary Holes with that lifespan.
+                </li>
+                <li>
+                    #13, probably the most important Modifier to account for when designing an infused mode, is the toggle for Negative Tiles.
+                    This is a string: either "None", "Non-Interacting", or "Interacting".
+                </li>
+                <li>
+                    #14 is Visible Next Spawned Tiles, which is a number.
+                </li>
+                <li>
+                    #15 is the toggle for the Page 2 modifier on spawning rules, which is a string, either "Regular", "Simple", or "Equal".
+                </li>
+                <li>
+                    #16 and #29 are currently unused, as they used to store Animation Speed Multiplier and Time Between Moves in Replays before
+                    those were moved to settingModifiers in v3.0.
+                </li>
+                <li>
+                    #17 is Randomly-Placed Holes, #18 is Randomly-Placed Block Tiles, and #19 is Moves Between Spawns, all of which are numbers.
+                </li>
+                <li>
+                    #20 is the toggle for the Page 2 modifier about moving in the same direction repeatedly, which is a number:
+                    0 for "nothing special", -1 for "to merge tiles, you must move in the same direction twice in a row",
+                    or a positive integer for Direction Cooldown.
+                </li>
+                <li>
+                    #21 is the toggle for hiding the tile number, which is a boolean: false for tile numbers being displayed normally, true for tile numbers being hidden.
+                </li>
+                <li>
+                    #22 is Positive Tiles Spawn Ratio, and #23 is Negative Tiles Spawn Ratio, both of which are numbers.
+                </li>
+                <li>
+                    #24 is the amount of colors for Multicolor Tiles, which is a number.
+                </li>
+                <li>
+                    #25 is Temporary Holes per Spawn, #26 is Turns Between Hole Spawns, and #27 is Temporary Hole Lifespan, all of which are numbers.
+                </li>
+                <li>
+                    #28 is Randomly-Placed Slippery Tiles, which is a number.
+                </li>
+                <li>
+                    #30 and #31 are the modifiers associated with the spoiler code [MCSOZ], which are both numbers.
+                    (If you don't know what these are, then you might want to override them to 0 if your infused mode is messing around with movementParameters.)
+                </li>
+                <li>
+                    #32 is the toggle for hiding the tile colors, which is a boolean: false for tiles being displayed normally, true for tile colors being hidden.
+                </li>
+                <li>
+                    #33 is the modifier associated with the spoiler code [COZTS], which is a number.
+                    (If you don't know what this is, then you should probably Ignore it or override it to 0 if your infused mode has any "TileClick" scripts.)
+                </li>
+            </ul>
+            <p>
+                And the Settings indices are:
+            </p>
+            <ul>
+                <li>
+                    #0 is Animation Speed Multiplier, and #1 is Time Between Moves in Replays, both of which are numbers.
+                </li>
+                <li>
+                    #2 through #6 are the toggles for the Discovered Tiles, Moves, Merges, Merges Before This Move, and Moves Where a Merge Occurred stat boxes respectively,
+                    all of which are booleans.
+                </li>
+                <li>
+                    #7, #9, and #10 are the Page 3 modifiers that save things on page reloads. <i>settingModifiersOverride does not work on these</i> -
+                    they're not part of a game at all, so it wouldn't make sense for them to be overridden anyway.
+                </li>
+                <li>
+                    #8 is the toggle for what the Restart Game button does, which is a boolean: false for its normal behavior, true for causing a game over.
+                </li>
+                <li>
+                    #11 through #14 are the toggles for the Time Since Game Began, Time Since First Move, Time Since Previous Move Start, and Time Since Previous Move End
+                    boxes respectively, all of which are either the boolean false (if they're off) or a number (the amount of seconds between updates).
+                    Note that if any of these are on, gridDisplayIntervalTime will be set to the minimum out of its current value and all of their update times,
+                    and the "stat boxes do not update their display" entry of displayLagReductions is reset to always be false.
+                </li>
+                <li>
+                    #15 and #16 are the toggles for the Time It Took To Win and Time It Took To Game Over boxes respectively, which are booleans.
+                </li>
+                <li>
+                    #17 is the default (i.e. maximum) tileDisplayKnownLevel, and #18 is the default (i.e. maximum) mergeResultKnownLevel.
+                </li>
+            </ul>
+            <p>
+                While an infused mode can't edit or detect the starting grid, it <i>can</i> edit the directions and automatic moves: use modifiersOverride for this,
+                except instead of a modifier index number, put one of the following strings: "Directions" to override the manual directions, "AutoDirections"
+                to override the automatic moves. However, modifiersOverride entries for directions only work on game start (third entry is true),
+                they can't be used on mode enter (third entry is false).
+            </p>
+            <p>
+                To explain a little more about "@MVarIndex" strings, the mvar_indices array uses positive numbers for Modifiers,
+                so it uses 1-indexing instead of 0-indexing: for example, the modifier variable associated with the "moving in the same direction repeatedly"
+                modifier, which is modifier #20, will have its corresponding mvar_indices entry be 21.
+                Likewise, Settings use negative numbers, so the modifier variable associated with the Discovered Tiles box (setting #2) will have its
+                corresponding mvar_indices entry by -3. This offset by 1 in each direction is to ensure that the #0's don't overlap in theory
+                (even though in practice neither of them have variables).
+            </p>
+        </div>
+        <div id="Part5_saveCodes" class="textbox" style="background-color: #17007d; color: #a083ff; border-color: #4000ae;">
             <h3>Save Codes</h3>
             <p>
                 The 2048 Power Compendium has a few kinds of save codes, but this blog post is documentation on how to make a mode, so I'll only be going over
-                the main kind of save code, the one that loads either an in-progress game or the start of a mode.
+                the main kind of save code, the one that loads either an in-progress game or the start of a mode, as those are what you'd use to make injected modes.
+                If you need to make an injected mode (such as if your mode relies on some grid properties that infused modes can't control),
+                it's probably easier to just make an infused mode, use particular modifiers on it, and then save the result as an injected mode,
+                but if that won't work either for what you're making, then you might want to know how save codes work.
             </p>
             <p>
                 A save code is a text string consisting of a bunch of parts separated by | characters.
@@ -2199,11 +2976,10 @@
             </p>
             <p>
                 The rest of the parts are in base-64 encoding, either of just a plain string or of the object run through JavaScript's "stringify" function -
-                or, rather, an extended version of stringify that also handles BigInts, BigRationals, and GaussianBigInts via the "@BigInt", "@BigRational", and "@GaussianBigInt"
-                methods described back in Part 2, as well as using "@Infinity", "@-Infinity", and "@undefined" to store the appropriate values since stringify would otherwise turn them into null.
+                or, rather, the extended version of stringify described previously with "@BigInt n" and the like.
             </p>
             <p>
-                These save codes include several pieces of data not discussed in the last section, since they also store data related to global modifiers.
+                These save codes include several pieces of data not discussed prior, since they also store data related to global modifiers.
                 Here's the order of the rest of the parts in a mode save code:
             </p>
             <ul>
@@ -2262,20 +3038,19 @@
                     statBoxes
                 </li>
                 <li>
-                    The "--background-color" CSS property
+                    gameplayBackground
                 </li>
                 <li>
-                    The "--grid-color" CSS property
+                    gridBackground
                 </li>
                 <li>
-                    The "--tile-color" CSS property
+                    tileBackground
                 </li>
                 <li>
-                    The "--text-color" CSS property
+                    textBackground
                 </li>
                 <li>
-                    The innerHTML of the rules_text HTML element (note: before the base-64, this is encoded via the JavaScript library <i>he</i>, to avoid letting special characters that would mess with
-                    the HTML into the save code)
+                    gmRulesText
                 </li>
                 <li>
                     Whether tiles can merge multiple times in the same turn
@@ -2290,7 +3065,7 @@
                     How many random tiles spawn each time
                 </li>
                 <li>
-                    The "spawn conditions", a CalcArray expression. Random tile spawns only occur this turn if the spawn conditions CalcArray evaluates to true.
+                    spawnConditions
                 </li>
                 <li>
                     How many of the next spawning tiles are visible
@@ -2299,7 +3074,7 @@
                     start_game_vars
                 </li>
                 <li>
-                    start_modifier_vars
+                    start_modifier_vars, which is like start_game_vars but for the variables created by modifiers instead.
                 </li>
                 <li>
                     scripts
@@ -2327,6 +3102,24 @@
                 </li>
                 <li>
                     discoveredTilesFilter
+                </li>
+                <li>
+                    displayGridIntervalTime
+                </li>
+                <li>
+                    spawnTileBlocked
+                </li>
+                <li>
+                    directionBlocked
+                </li>
+                <li>
+                    gameplayComponentOpacities
+                </li>
+                <li>
+                    displayLagReductions
+                </li>
+                <li>
+                    start_mvar_indices
                 </li>
             </ul>
             <p>
@@ -2405,17 +3198,45 @@
                 <li>
                     The current forcedSpawns
                 </li>
+                <li>
+                    How many milliseconds it's been since the game started
+                </li>
+                <li>
+                    How many milliseconds it was between the start of the game and the start of the first move
+                </li>
+                <li>
+                    How many milliseconds it was between the start of the game and the start of the most recent move
+                </li>
+                <li>
+                    How many milliseconds it was between the start of the game and the end of the most recent move
+                </li>
+                <li>
+                    How many milliseconds it was between the start of the game and the moment of victory
+                </li>
+                <li>
+                    How many milliseconds it was between the start of the game and the moment of game over
+                </li>
+                <li>
+                    An array of how many milliseconds it was between the start of the game and the most recent run of each script
+                    (used for knowing when an Interval script is available to run again)
+                </li>
+                <li>
+                    The timestamps (in milliseconds since the start of the game) that each move was made (saved for replay purposes, but replays only use this if displayGridIntervalTime is finite)
+                </li>
+                <li>
+                    mvar_indices
+                </li>
             </ul>
         </div>
     </div>
-    <div class="textbox" style="background-color: #ffebb4; color: #ad9900; border-color: #ffd70f;">
+    <div id="ConclusionBox" class="textbox" style="background-color: #ffebb4; color: #ad9900; border-color: #ffd70f;">
         <h2>Conclusion</h2>
         <p>
             There's plenty more I could say about the code of the 2048 Power Compendium, but this blog post isn't meant to be a total retrospective on the 2048 Power Compendium's development.
             This blog post is about documenting the behavior of CalcArrays, and giving users enough information to be able to make their own modes to save as save codes and share with others,
             and with everything I've covered here, I'm hoping I gave a complete enough picture to enable that.
             There have already been some people who have learned enough about CalcArrays to make injected modes even without this documentation, though usually with some help from me along the way...
-            so hopefully this documentation will make that learning process easier!
+            so hopefully this documentation will make that learning process easier, and help with making infused modes now that those exist!
         </p>
     </div>
 
