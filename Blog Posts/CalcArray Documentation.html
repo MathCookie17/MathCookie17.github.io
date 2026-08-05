@@ -1189,6 +1189,9 @@
                 it retain the variables from its parent, the variable retaining will automatically cascade to all of its children, and all of its childrens' children,
                 and so on. Likewise, there's <span class="CalcArray">"@global_var_copy"</span>, and there's also <span class="CalcArray">"@global_var_none"</span>,
                 which stops a global_var cascade coming from its ancestors from applying to that CalcArray or its children.
+                There's also <span class="CalcArray">"@global_var_retain_inner"</span>, <span class="CalcArray">"@global_var_copy_inner"</span>, and
+                <span class="CalcArray">"@global_var_none_inner"</span>, versions of the above that don't trigger their retaining changes on the current array layer,
+                but do apply that effect to all child array layers.
             </p>
             <p>
                 Finally, there's also the "game variables"; whereas most variable arrays are local to a specific CalcArray, the game variables are a single array
