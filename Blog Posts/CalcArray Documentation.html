@@ -1779,7 +1779,7 @@
                     "1 2 4", while if it's false then numbers are written normally)
                 </li>
                 <li>
-                    "mod 27" (1st parameter, which is 180 by default, rotates the gradient)
+                    "mod 27" (1st parameter, which is 180 by default, rotates the gradient. 2nd parameter is true by default, the rainbow effect on 1 and -1 is disabled if it's false.)
                 </li>
                 <li>
                     "1321" (1st parameter controls how fast powers of 2 make it darker (1 by default), 2nd parameter adds to the starting darkness level
@@ -1787,10 +1787,13 @@
                     lag in modes like Pro-Add-Uct.)
                 </li>
                 <li>
-                    "180" (1st parameter is the amount of primes tracked before switching to inner tiles, 48 by default)
+                    "180" (1st parameter is the amount of primes tracked before switching to inner tiles, 48 by default. 2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
-                    "DIVE" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default)
+                    "DIVE" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
                     "2295"
@@ -1802,11 +1805,13 @@
                     "Odds-Only 3069"
                 </li>
                 <li>
-                    "SQUART" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default)
+                    "SQUART" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.)
                 </li>
                 <li>
                     "SQUARTSingle" (SQUART's color scheme, but with just one segment instead of two, so really it's moreso DIVE's color scheme but
-                    five-smooth colors get brighter faster. 1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default)
+                    five-smooth colors get brighter faster. 1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
                     "Turatin"
@@ -1818,41 +1823,60 @@
                     "Bitwise 2048" (1st parameter is the base being used, 2 by default)
                 </li>
                 <li>
-                    "SCAPRIM" (1st parameter is the amount of primes tracked before switching to inner tiles, Infinity by default)
+                    "SCAPRIM" (1st parameter is the amount of primes tracked before switching to inner tiles, Infinity by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
-                    "1845" (1st parameter is the amount of primes tracked before switching to inner tiles, 1229 by default)
+                    "1845" (1st parameter is the amount of primes tracked before switching to inner tiles, 1229 by default.)
                 </li>
                 <li>
                     "3385" (1st parameter is the amount of primes tracked before switching to inner tiles (168 by default),
-                    2nd parameter is the exponent at which the color goes to the right segment (2 by default))
+                    2nd parameter is the exponent at which the color goes to the right segment (2 by default).)
                 </li>
                 <li>
-                    "LOCEF" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default)
+                    "3385Single" (3385's color scheme with just one segment. 1st parameter is the amount of primes tracked before switching to inner tiles (168 by default).
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
-                    "Three-Tile SQUART" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default)
+                    "LOCEF" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
-                    "TRIGAT" (1st parameter is the amount of sides, 3 by default)
+                    "Three-Tile SQUART" (1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.)
+                </li>
+                <li>
+                    "TRIGAT" (1st parameter is the amount of sides, 3 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the cones, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
                     "Anti-DIVE" (An inverted colors version of the DIVE color scheme.
                     1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.
                     This color scheme is not currently used in any mode, but was added for a mode idea in v2.3 that didn't end up
                     making it into the game, but its color scheme remains.)
                 </li>
                 <li>
                     "Gaussian DIVE" (0th parameter should be a GaussianBigInt instead of a BigInt.
-                    1st parameter is the amount of Gaussian primes tracked before switching to inner tiles, 1232 by default)
+                    1st parameter is the amount of Gaussian primes tracked before switching to inner tiles, 1232 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
                     "Partial Absorb 180" (0th parameter should be a BigRational instead of a BigInt.
-                    1st parameter is the amount of primes tracked before switching to inner tiles, 27 by default)
+                    1st parameter is the amount of primes tracked before switching to inner tiles, 27 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.)
                 </li>
                 <li>
                     "RACUTE", "Rational DIVE" (0th parameter should be a BigRational instead of a BigInt.
                     1st parameter is the amount of primes tracked before switching to inner tiles, 168 by default.
+                    2nd parameter is the opacity of the background,
+                    3rd parameter is the opacity of the prime images, 4th parameter is the opacity of subtiles, all of these are 1 by default.
                     These two are synonyms)
                 </li>
             </ul>
