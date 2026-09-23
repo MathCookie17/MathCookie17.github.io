@@ -1494,6 +1494,12 @@
                     four would work if an element of a tile is itself an array, etc.)
                 </li>
                 <li>
+                    <span class="CalcArray">"@GridWidth"</span> and <span class="CalcArray">"@GridHeight"</span> evaluate to the (horizontal) width and the
+                    (vertical) height of the grid. Note that internally the grid is always a rectangular grid - hexagonal grid is stored internally as a
+                    rectangular grid with half the tiles always gone, and directions adjusted to always go to tiles within the remaining checkerboard.
+                    Anything that works with directions or the grid shape will use the underlying rectangular grid, not the hexagonal illusion!
+                </li>
+                <li>
                     The following special strings give you the CalcArray's other arguments: <span class="CalcArray">"@VCoord"</span> and <span class="CalcArray">"@HCoord"</span>
                     evaluate to the vertical and horizontal arguments the CalcArray is running at (arguments #1 and #2), <span class="CalcArray">"@VDir"</span> and
                     <span class="CalcArray">"@HDir"</span> evaluate to the vertical and horizontal components of the current movement direction (arguments #3 and #4),
